@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WhoIsWho</string>
+    <string name="ask_question">Preguntar</string>
+    <string name="guess_character">Adivinar Personaje</string>
+    <string name="pause_play_button">Botón de pausa o reproducción</string>
+    <string name="next_song_button">Botón para avanzar a la siguiente canción</string>
+</resources>

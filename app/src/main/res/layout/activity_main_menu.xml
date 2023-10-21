@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/background_gif"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+        <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="top|center_horizontal"
+                android:src="@drawable/who_is"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitCenter" android:layout_marginBottom="40dp"/>
+        <Button
+                android:id="@+id/play_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jugar" />
+
+        <Button
+                android:id="@+id/music_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Música ON/OFF"
+                android:layout_marginTop="16dp" />
+
+        <Button
+                android:id="@+id/scores_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Puntuaciones"
+                android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</FrameLayout>

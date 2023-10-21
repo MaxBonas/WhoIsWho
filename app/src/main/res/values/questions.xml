@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="questions">
+        <item>Lleva gafas</item>
+        <item>Tiene barba</item>
+        <item>Lleva bigote</item>
+        <item>Se rapa o carece de pelo</item>
+        <item>Usa sombrero o gorra</item>
+        <item>Lleva maquillaje</item>
+        <item>Lleva piercing</item>
+        <item>Lleva el pelo largo</item>
+        <item>Tiene pecas</item>
+        <item>Tiene tatuajes</item>
+        <item>Usa pañuelo o bandana</item>
+    </string-array>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color de fondo beix -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F5E0C3"/> <!-- Aquí se coloca el código hexadecimal del color beix. Ajusta el valor si necesitas otro tono -->
+        </shape>
+    </item>
+
+    <!-- Imagen transparentada -->
+    <item>
+        <bitmap
+                android:src="@drawable/background_photo"
+                android:alpha="0.5" /> <!-- Puedes ajustar el valor alpha (0.5) para controlar la transparencia. 0.0 es completamente transparente y 1.0 es completamente opaco. -->
+    </item>
+</layer-list>
