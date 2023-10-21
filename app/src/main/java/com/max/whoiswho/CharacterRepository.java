@@ -1,0 +1,57 @@
+package com.max.whoiswho;
+
+public class CharacterRepository {
+
+    public static Character[] getAllCharacters() {
+        return new Character[]{
+                new Character("Alice", true, false, false, false, true, true, false, true, false, false, false, false, R.drawable.alice),
+                new Character("Bob", false, true, true, true, false, false, true, false, false, true, false, false, R.drawable.bob),
+                new Character("Eve", true, false, false, false, false, true, false, true, false, false, false, false, R.drawable.eve),
+                new Character("David", false, true, true, true, false, false, false, false, false, false, false, false, R.drawable.david),
+                new Character("Fay", false, false, false, false, true, true, true, false, false, false, false, false, R.drawable.fay),
+                new Character("Gary", true, false, true, false, false, false, false, true, false, false, false, false, R.drawable.gary),
+                new Character("Alex", false, false, false, false, true, false, false, false, true, false, true, false, R.drawable.alex),
+                new Character("Jordan", false, true, true, false, true, true, true, false, false, true, false, false, R.drawable.jordan),
+                new Character("Taylor", false, false, true, false, false, false, false, false, false, true, true, false, R.drawable.taylor),
+                new Character("Morgan", false, false, true, false, true, false, false, true, false, false, false, false, R.drawable.morgan),
+                new Character("Casey", true, false, true, false, true, false, true, false, false, true, true, false, R.drawable.casey),
+                new Character("Leon", true, true, true, false, false, false, false, true, true, true, true, false, R.drawable.leon),
+                new Character("Jamie", false, false, true, false, true, true, false, false, true, false, false, false, R.drawable.jamie),
+                new Character("Lola", true, false, false, false, true, true, false, true, false, false, true, false, R.drawable.lola),
+                new Character("Jessie", true, false, false, true, false, false, false, false, true, false, false, false, R.drawable.jessie),
+                new Character("Blair", false, true, true, false, false, true, false, true, false, false, false, false, R.drawable.blair),
+                new Character("Drew",false, true, true, false, true, false, false, false, true, false, false, false, R.drawable.drew),
+                new Character("Cameron", true, false, false, false, false, false, true, false, false, true, false, false, R.drawable.cameron),
+                new Character("Devin", false, true, true, false, false, false, false, false, false, true, true, false, R.drawable.devin),
+                new Character("Reese", false, false, false, false, false, false, true, false, true, false, false, false, R.drawable.reese),
+                new Character("Bailey", false, false, true, false, false, false, false, false, true, false, true, false, R.drawable.bailey),
+                new Character("Charlie", false, false, true, false, false, false, true, false, true, false, false, false, R.drawable.charlie),
+                new Character("Chris", false, true, false, true, false, true, false, false, false, true, false, false, R.drawable.chris),
+                new Character("Dakota", true, false, false, false, false, true, false, true, true, false, false, false, R.drawable.dakota),
+                new Character("Kelly", false, false, false, false, false, false, true, false, false, false, false, false, R.drawable.kelly),
+                new Character("Logan", false, false, false, true, false, true, false, false, false, false, true, false, R.drawable.logan),
+                new Character("Pat", true, true, true, false, false, false, true, true, true, true, true, false, R.drawable.pat),
+                new Character("Sam", false, false, false, false, true, false, true, false, true, true, false, false, R.drawable.sam),
+                new Character("Stevie", false, false, true, false, true, true, true, true, true, true, false, false, R.drawable.stevie),
+                new Character("Sidney", true, false, false, false, false, false, false, true, true, false, false, false, R.drawable.sidney),
+                new Character("Skyler", true, false, false, false, false, true, false, false, false, false, false, false, R.drawable.skyler),
+                new Character("Terry", false, true, true, false, false, false, false, true, false, false, true, false, R.drawable.terry),
+                new Character("Robin", false, false, false, false, false, true, false, false, false, false, false, false, R.drawable.robin),
+                new Character("Leslie", false, false, false, false, false, true, false, false, false, false, false, false, R.drawable.leslie),
+                new Character("Dana", true, false, false, false, true, false, true, true, false, true, false, false, R.drawable.dana),
+                new Character("Kim", false, false, true, false, true, false, true, false, false, true, true, false, R.drawable.kim),
+                new Character("Loren", false, false, false, true, false, false, true, false, true, false, false, false, R.drawable.loren),
+                new Character("Lee", false, false, true, false, false, false, true, false, false, true, true, false, R.drawable.lee),
+                new Character("Tracy", false, false, false, true, false, false, false, false, false, false, true, false, R.drawable.tracy),
+                new Character("Fran", false, false, true, false, false, false, false, false, true, false, false, false, R.drawable.fran),
+                new Character("Shawn", false, true, true, false, false, false, false, true, true, false, true, false, R.drawable.shawn),
+                new Character("Adrian", true, true, true, false, false, false, false, true, false, false, false, false, R.drawable.adrian),
+                new Character("Ian", false, true, true, true, false, false, false, false, false, false, true, false, R.drawable.ian),
+                new Character("Marty", true, true, true, false, true, false, false, false, true, false, false, false, R.drawable.marty),
+                new Character("Jaden", false, true, false, false, false, true, true, false, false, false, false, false, R.drawable.jaden),
+                new Character("Abril", true, false, false, false, false, false, false, true, true, false, false, false, R.drawable.abril),
+                new Character("Han", false, false, false, true, false, false, false, false, false, false, false, false, R.drawable.han),
+
+        };
+    }
+}
