@@ -10,18 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
 
 public class IntroActivity extends AppCompatActivity {
     private static final int TEXT_ANIMATION_DURATION = 50;  // Duración de cada letra
 
     private ImageView introImage;
     private TextView introText;
-
 
     private final int[] images = {
             R.drawable.intro1,
@@ -40,7 +36,6 @@ public class IntroActivity extends AppCompatActivity {
     };
 
     private int currentIndex = 0;
-    private MediaPlayer mediaPlayer;
 
     // Referencias para el Handler y el Runnable
     private Handler textHandler = new Handler();
@@ -51,11 +46,9 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        // Iniciar la música
-        mediaPlayer = MediaPlayer.create(this, R.raw.comedy_detective);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setVolume(0.5f, 0.5f);
-        mediaPlayer.start();
+        // Iniciar el AudioManager
+        AudioManager audioManager = new AudioManager(this);
+        audioManager.startSpecificMusic(4);  // 4 es el índice de comedy_detective.mp3
 
         introImage = findViewById(R.id.introImage);
         introText = findViewById(R.id.introText);
@@ -117,11 +110,6 @@ public class IntroActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         textHandler.removeCallbacks(textRunnable); // Cancelar el retraso
-
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
+        AudioManager.pauseMusic(); // Detener la música aquí
     }
 }

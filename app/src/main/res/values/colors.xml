@@ -10,4 +10,5 @@
     <color name="semi_transparent_garnet">#8808002A</color>
     <color name="spinner_text">#000000</color>
     <color name="spinner_background">#FFFFFF</color>
+    <color name="light_green">#90EE90</color>
 </resources>

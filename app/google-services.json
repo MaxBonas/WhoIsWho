@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "22612932389",
+    "firebase_url": "https://traceface-5dff8-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "traceface-5dff8",
+    "storage_bucket": "traceface-5dff8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22612932389:android:c072935e1b710ba7398ccc",
+        "android_client_info": {
+          "package_name": "com.max.whoiswho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANg_hPOUpEjyw0zx4DjSh6TwQyBaAh5Rw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

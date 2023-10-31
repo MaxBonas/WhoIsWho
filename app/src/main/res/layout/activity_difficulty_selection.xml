@@ -26,15 +26,6 @@
                 android:layout_marginBottom="32dp" android:background="@color/semi_transparent_garnet"/>
 
         <Button
-            android:id="@+id/tutorial_button"
-            style="@style/CustomButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            android:text="Tutorial" />
-
-        <Button
                 android:id="@+id/easy_button"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
@@ -55,7 +46,21 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Difícil" />
+                android:text="Difícil" android:layout_marginBottom="16dp"/>
+
+        <Button
+                android:id="@+id/very_hard_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Muy Difícil"
+                android:layout_marginBottom="16dp"/>
+        <Button
+                android:id="@+id/extreme_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Extremo" />
 
     </LinearLayout>
 

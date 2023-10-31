@@ -20,24 +20,42 @@
         <ImageView
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:layout_gravity="top|center_horizontal"
+                android:layout_gravity="center_horizontal|top"
                 android:src="@drawable/who_is"
-                android:layout_marginTop="16dp"
-                android:scaleType="fitCenter" android:layout_marginBottom="40dp"/>
+                android:layout_marginTop="0dp"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="0dp"/>
         <Button
-                android:id="@+id/play_button"
+                android:id="@+id/tutorial_button"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jugar" />
+                android:text="Tutorial"
+                android:layout_marginTop="10dp"/>
 
         <Button
-                android:id="@+id/music_button"
+                android:id="@+id/play_vs_ai_button"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Música ON/OFF"
-                android:layout_marginTop="16dp" />
+                android:text="Jugar vs IA"
+                android:layout_marginTop="10dp"/>
+
+        <Button
+                android:id="@+id/play_vs_player_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jugar vs Player"
+                android:layout_marginTop="10dp"/>
+
+        <Button
+                android:id="@+id/story_mode_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modo Historia"
+                android:layout_marginTop="10dp"/>
 
         <Button
                 android:id="@+id/scores_button"
@@ -45,7 +63,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Puntuaciones"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="10dp"/>
+
+        <Button
+                android:id="@+id/music_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Música ON/OFF"
+                android:layout_marginTop="10dp"/>
+
+        <Button
+                android:id="@+id/exit_button"
+                style="@style/CustomButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salir del juego"
+                android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

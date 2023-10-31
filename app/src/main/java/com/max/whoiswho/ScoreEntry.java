@@ -6,6 +6,10 @@ public class ScoreEntry {
     private String difficulty;
     private String playerId;
 
+    public ScoreEntry() {
+        // Constructor vacío requerido por Firebase
+    }
+
     public ScoreEntry(String date, int score, String difficulty, String playerId) {
         this.date = date;
         this.score = score;
@@ -44,4 +48,6 @@ public class ScoreEntry {
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
+
+
 }

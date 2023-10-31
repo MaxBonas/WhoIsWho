@@ -5,28 +5,31 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
-
-
     Character[] characters = CharacterRepository.getAllCharacters();
-
     Character chosenCharacter;
-
     Spinner questionsSpinner;
     Button askButton;
     TextView answerTextView;
@@ -34,22 +37,35 @@ public class MainActivity extends AppCompatActivity {
     TextView timerTextView;
     TextView scoreTextView;
     int score = 100;
-
     RecyclerView characterRecyclerView;
     CharacterAdapter characterAdapter;
     long gameDuration;
-    private CountDownTimer gameTimer;
+    GameTimer gameTimer;
     // Añade esto al inicio de MainActivity
     private ImageView floatingImageView;
+    boolean gameHasEnded = false;
+    String playerName = TitleActivity.getCurrentPlayerName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        String playerName = intent.getStringExtra("playerName");
+
+        if (playerName == null) {
+            playerName = "Invitado";  // O manejar este caso como mejor te parezca
+        }
         characters = CharacterRepository.getAllCharacters();
 
         int characterCount = getIntent().getIntExtra("CHARACTER_COUNT", 10); // 10 por defecto
+        if (characterCount <= 0) {
+            Toast.makeText(this, "Número inválido de personajes", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         characters = getRandomCharacters(characterCount);
 
         String difficulty = getIntent().getStringExtra("DIFFICULTY");
@@ -67,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "dificil":
                 gameDuration = 3 * 60 * 1000;  // 3 minutos
+                break;
+            case "muy_dificil":  // Nuevo
+                gameDuration = 2 * 60 * 1000;  // 2 minutos
+                break;
+            case "extremo":  // Nuevo
+                gameDuration = 2 * 60 * 1000;  // 2 minutos
                 break;
             default:
                 gameDuration = 2 * 60 * 1000;  // Por defecto, 2 minutos
@@ -88,17 +110,17 @@ public class MainActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.score_textview);
 
         pausePlayButton.setOnClickListener(v -> {
-            if (TitleActivity.isMusicPlaying()) {
-                TitleActivity.pauseMusic();
+            if (AudioManager.isMusicPlaying()) {
+                AudioManager.pauseMusic();
                 pausePlayButton.setBackgroundResource(R.drawable.ic_media_play);  // Cambia a icono de play
             } else {
-                TitleActivity.playMusic();
+                AudioManager.playMusic();
                 pausePlayButton.setBackgroundResource(R.drawable.ic_media_pause); // Cambia a icono de pausa
             }
         });
 
         nextSongButton.setOnClickListener(v -> {
-            TitleActivity.nextSong();
+            AudioManager.nextSong();
         });
 
         //imagen ampliada flotante
@@ -111,25 +133,8 @@ public class MainActivity extends AppCompatActivity {
         ((FrameLayout) findViewById(R.id.container)).addView(floatingImageView);
 
         // Iniciar el temporizador
-        gameTimer = new CountDownTimer(gameDuration, 1000) {
-            public void onTick(long millisUntilFinished) {
-                timerTextView.setText(String.format(Locale.getDefault(), "%02d:%02d",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
-
-                // Calcula el porcentaje de tiempo restante
-                double percentageLeft = (double) millisUntilFinished / gameDuration;
-                score = (int) (percentageLeft * 100);
-
-                scoreTextView.setText("Puntuación: " + score);
-            }
-
-            public void onFinish() {
-                timerTextView.setText("¡Tiempo agotado!");
-                endGame("Has perdido!");
-            }
-        }.start();
+        gameTimer = new GameTimer(gameDuration, timerTextView, scoreTextView, this);
+        gameTimer.start();  // Iniciar el temporizador
 
         // Configura el comportamiento del botón "Preguntar"
         askButton.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 askButton.setEnabled(false);
 
                 int questionIndex = questionsSpinner.getSelectedItemPosition();
-                boolean answer = askQuestion(chosenCharacter, questionIndex);
+                boolean answer = QuestionManager.askQuestion(chosenCharacter, questionIndex);
                 answerTextView.setText(answer ? "Sí" : "No");
                 answerTextView.setAlpha(0f);
                 answerTextView.setVisibility(View.VISIBLE);
@@ -174,29 +179,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Inicializa y configura el RecyclerView
+// Inicializa y configura el RecyclerView
         characterRecyclerView = findViewById(R.id.character_recycler_view);
-        characterAdapter = new CharacterAdapter(this, Arrays.asList(characters), floatingImageView);
+// Pasa dos listas de personajes idénticas al constructor de CharacterAdapter
+        characterAdapter = new CharacterAdapter(this, Arrays.asList(characters), Arrays.asList(characters), floatingImageView, false);
         characterRecyclerView.setAdapter(characterAdapter);
         ScrollableGridLayoutManager gridLayoutManager = new ScrollableGridLayoutManager(this, 2); // 2 columnas
         characterRecyclerView.setLayoutManager(gridLayoutManager);
-    }
-
-    private boolean askQuestion(Character character, int questionIndex) {
-        switch (questionIndex) {
-            case 0: return character.isHasGlasses();
-            case 1: return character.isHasBeard();
-            case 2: return character.isHasMustache();
-            case 3: return character.isBald();
-            case 4: return character.isWearsHat();
-            case 5: return character.isWearsMakeup();
-            case 6: return character.isHasPiercing();
-            case 7: return character.isHasLongHair();
-            case 8: return character.isHasFreckles();
-            case 9: return character.isHasTattoos();
-            case 10: return character.isWearsScarfOrBandana();
-            default: return false;
-        }
     }
 
     private void guessCharacter() {
@@ -223,8 +212,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String guess = characterGuessSpinner.getSelectedItem().toString();
                 if (guess.equalsIgnoreCase(chosenCharacter.getName())) {
-                    int finalScore = score;
-                    endGame("¡Has ganado! Tu puntuación es: " + finalScore);
+                    endGame("¡Has ganado!");
                 } else {
                     endGame("¡Has perdido!");
                 }
@@ -258,9 +246,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void endGame(String message) {
+    public void endGame(String message) {
+        if (gameHasEnded) return;  // Si el juego ya ha terminado, no hacer nada
+
+        gameHasEnded = true;  // Marcar el juego como terminado
+        // Detener el temporizador
+        gameTimer.stop();
+
+        int finalScore = gameTimer.getScore();  // Obtener la puntuación final desde GameTimer
+
         if (!isFinishing()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            if (message.equals("¡Has perdido!")) {
+                // Si el jugador ha perdido, muestra el personaje correcto y su imagen
+                message += "\nEl personaje correcto era " + chosenCharacter.getName();
+                // Crear un ImageView para el diálogo
+                ImageView characterImageView = new ImageView(this);
+                characterImageView.setImageResource(chosenCharacter.getImagePath());
+                characterImageView.setAdjustViewBounds(true);
+                characterImageView.setMaxHeight(300);  // Establecer la altura máxima
+                characterImageView.setMaxWidth(300);   // Establecer el ancho máximo
+
+                builder.setView(characterImageView);
+            } else {
+                message += " Tu puntuación es: " + finalScore; // Muestra la puntuación solo si el jugador gana
+            }
+
             builder.setTitle(message);
             builder.setPositiveButton("Menú", new DialogInterface.OnClickListener() {
                 @Override
@@ -273,8 +284,26 @@ public class MainActivity extends AppCompatActivity {
             builder.setCancelable(false);
             builder.show();
         }
-    }
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        String playerId = playerName;  // Reemplaza esto con el ID real del jugador
+        String date = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        }
+        String difficulty = getIntent().getStringExtra("DIFFICULTY");
 
+        ScoreEntry scoreEntry = new ScoreEntry(date, finalScore, difficulty, playerId);
+        databaseReference.child("scores").push().setValue(scoreEntry, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if (error != null) {
+                    Log.e("MainActivity", "Error al guardar la puntuación", error.toException());
+                    Toast.makeText(MainActivity.this, "Error al guardar la puntuación", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Log.d("MainActivity", "Guardando puntuación: " + score);
+    }
 
     private Character[] getRandomCharacters(int count) {
         Random rand = new Random();
@@ -346,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (gameTimer != null) {
-                    gameTimer.cancel();
+                    gameTimer.stop();
                 }
                 finish();
             }

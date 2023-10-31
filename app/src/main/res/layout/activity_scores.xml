@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="16dp"
-              tools:context=".ScoresActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_with_image">
+
+    <Button
+            android:id="@+id/sortButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ordenar por Puntuación"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"/>
 
     <TextView
             android:id="@+id/titleTextView"
-            android:layout_width="match_parent"
+            android:layout_width="248dp"
             android:layout_height="wrap_content"
             android:text="Puntuaciones"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="16dp" />
+            android:layout_below="@id/sortButton"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp" android:background="@color/light_green" android:gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scoresRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="972dp"
+            android:layout_below="@id/titleTextView"
+            android:background="@color/light_green"/>
 
-</LinearLayout>
+</RelativeLayout>

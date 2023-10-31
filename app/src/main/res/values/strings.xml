@@ -4,4 +4,7 @@
     <string name="guess_character">Adivinar Personaje</string>
     <string name="pause_play_button">Botón de pausa o reproducción</string>
     <string name="next_song_button">Botón para avanzar a la siguiente canción</string>
+    <string name="default_web_client_id">"22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com"</string>
+    <string name="ask_question_p1">Pregunta Jugador 1</string>
+    <string name="ask_question_p2">Pregunta Jugador 2</string>
 </resources>

@@ -1,27 +1,33 @@
 package com.max.whoiswho;
 
+import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
-import com.bumptech.glide.Glide;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.common.api.ApiException;
 
 public class TitleActivity extends AppCompatActivity {
 
-    private static List<MediaPlayer> mediaPlayers = new ArrayList<>();
-    private static int currentSongIndex = 0;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static GoogleSignInAccount account;
+    private Button continueButton;
+    private AudioManager audioManager;  // Nueva variable para el AudioManager
 
-    private static final int FADE_DURATION = 2000;  // Duración del fade-in en milisegundos
-    private float volume = 0.0f;  // Volumen inicial
-    private final float volumeStep = 0.05f;  // Cantidad que se aumentará el volumen en cada paso
-    private final Handler fadeInHandler = new Handler();
+    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,105 +37,82 @@ public class TitleActivity extends AppCompatActivity {
         ImageView backgroundGif = findViewById(R.id.background_gif);
         Glide.with(this).load(R.drawable.fondo_futurista).into(backgroundGif);
 
-        // Si la lista de mediaPlayers está vacía, la llenamos
-        if (mediaPlayers.isEmpty()) {
-            mediaPlayers.add(MediaPlayer.create(this, R.raw.piano_bso));
-            mediaPlayers.add(MediaPlayer.create(this, R.raw.lone_wolf));
-            mediaPlayers.add(MediaPlayer.create(this, R.raw.mystery_unfold));
-            mediaPlayers.add(MediaPlayer.create(this, R.raw.mysterious_forest));
-            mediaPlayers.add(MediaPlayer.create(this, R.raw.comedy_detective));
-            for (MediaPlayer mp : mediaPlayers) {
-                mp.setLooping(true);
-            }
-        }
+        // Inicializar mGoogleSignInClient
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Si el mediaPlayer actual no está en reproducción, lo iniciamos
-        if (!mediaPlayers.get(currentSongIndex).isPlaying()) {
-            volume = 0.75f;  // Ajustar el volumen inicial al 75%
-            mediaPlayers.get(currentSongIndex).setVolume(volume, volume);
-            new Handler().postDelayed(() -> {
-                mediaPlayers.get(currentSongIndex).start();
-                fadeInHandler.post(fadeInRunnable);
-            }, 500);  // Retraso de medio segundo
-        }
+        // Inicializar AudioManager
+        audioManager = new AudioManager(this);
+        audioManager.startSpecificMusic(0);  // 0 es el índice de piano_bso.mp3
 
-        Button continueButton = findViewById(R.id.continue_button);
+        // Inicialización de la variable de instancia
+        continueButton = findViewById(R.id.continue_button);
+        continueButton.setEnabled(false);
+
         continueButton.setOnClickListener(v -> {
-            // Iniciar la actividad del menú principal
-            startActivity(new Intent(TitleActivity.this, MainMenuActivity.class));
-            finish();  // Cierra la actividad actual después de iniciar la siguiente
+            Intent intent = new Intent(TitleActivity.this, MainMenuActivity.class);
+            if (account != null) {
+                intent.putExtra("playerName", account.getDisplayName());
+            } else {
+                intent.putExtra("playerName", "Invitado");
+            }
+            startActivity(intent);
+            finish();
         });
     }
 
-    private final Runnable fadeInRunnable = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                if (mediaPlayers.get(currentSongIndex) != null && volume < 1.0f) {
-                    volume += volumeStep;
-                    mediaPlayers.get(currentSongIndex).setVolume(volume, volume);
-                    fadeInHandler.postDelayed(this, FADE_DURATION / (int) (1.0f / volumeStep));
-                }
-            } catch (Exception e) {
-                Log.e("TitleActivity", "Error adjusting volume for mediaPlayer", e);
-            }
-        }
-    };
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("TitleActivity", "onDestroy called");
-        fadeInHandler.removeCallbacks(fadeInRunnable);
-        // No liberamos el mediaPlayer aquí porque queremos que la música continúe reproduciéndose en las siguientes actividades
-    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    public static void playMusic() {
-        if (!mediaPlayers.isEmpty() && !mediaPlayers.get(currentSongIndex).isPlaying()) {
-            mediaPlayers.get(currentSongIndex).start();
-        }
-    }
-
-    public static void pauseMusic() {
-        if (!mediaPlayers.isEmpty() && mediaPlayers.get(currentSongIndex).isPlaying()) {
-            mediaPlayers.get(currentSongIndex).pause();
-        }
-    }
-
-    public static boolean isMusicPlaying() {
-        return !mediaPlayers.isEmpty() && mediaPlayers.get(currentSongIndex).isPlaying();
-    }
-
-    public static void nextSong() {
-        if (!mediaPlayers.isEmpty()) {
-            mediaPlayers.get(currentSongIndex).stop();
-            currentSongIndex = (currentSongIndex + 1) % mediaPlayers.size();
-            mediaPlayers.get(currentSongIndex).start();
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                account = task.getResult(ApiException.class);
+                Toast.makeText(this, "Inicio de sesión exitoso como " + account.getDisplayName(), Toast.LENGTH_LONG).show();
+            } catch (ApiException e) {
+                Toast.makeText(this, "Inicio de sesión fallido. Continuarás como invitado.", Toast.LENGTH_LONG).show();
+            }
+            continueButton.setEnabled(true); // Habilitar el botón en ambos casos
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("TitleActivity", "onStart called");
+        if (isConnectedToInternet()) {
+            account = GoogleSignIn.getLastSignedInAccount(this);
+            if (account != null) {
+                continueButton.setEnabled(true);
+                Toast.makeText(this, "Ya estabas autenticado como " + account.getDisplayName(), Toast.LENGTH_LONG).show();
+            } else {
+                signIn();
+            }
+        } else {
+            continueButton.setEnabled(true);
+            Toast.makeText(this, "Sin conexión a Internet. Continuarás como invitado.", Toast.LENGTH_LONG).show();
+        }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("TitleActivity", "onPause called");
+
+    public boolean isConnectedToInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("TitleActivity", "onResume called");
+    public static String getCurrentPlayerName() {
+        if (account != null) {
+            return account.getDisplayName();
+        }
+        return "Invitado";
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("TitleActivity", "onStop called");
-    }
-
 }

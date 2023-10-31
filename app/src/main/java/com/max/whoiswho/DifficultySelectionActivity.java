@@ -18,18 +18,12 @@ public class DifficultySelectionActivity extends AppCompatActivity {
         ImageView backgroundGif = findViewById(R.id.background_gif);
         Glide.with(this).load(R.drawable.fondo_futurista).into(backgroundGif);
 
-        Button tutorialButton = findViewById(R.id.tutorial_button);
         Button easyButton = findViewById(R.id.easy_button);
         Button normalButton = findViewById(R.id.normal_button);
         Button hardButton = findViewById(R.id.hard_button);
+        Button veryHardButton = findViewById(R.id.very_hard_button);
+        Button extremeButton = findViewById(R.id.extreme_button);
 
-        tutorialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DifficultySelectionActivity.this, TutorialActivity.class);
-                startActivity(intent);
-            }
-        });
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +44,19 @@ public class DifficultySelectionActivity extends AppCompatActivity {
                 startGame("Dificil");
             }
         });
+        veryHardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGame("Muy Dificil");
+            }
+        });
+
+        extremeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGame("Extremo");
+            }
+        });
     }
 
     private void startGame(String difficulty) {
@@ -63,6 +70,12 @@ public class DifficultySelectionActivity extends AppCompatActivity {
                 break;
             case "Dificil":
                 characterCount = 30;
+                break;
+            case "Muy Dificil":
+                characterCount = 30;
+                break;
+            case "Extremo":
+                characterCount = 40;
                 break;
             default:
                 characterCount = 10; // Por defecto
