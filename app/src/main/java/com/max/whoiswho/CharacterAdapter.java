@@ -92,10 +92,16 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
         Runnable enlargeImageRunnable = new Runnable() {
             @Override
             public void run() {
+                Context context = holder.characterImage.getContext();
+                if (context instanceof MainActivity) {
+                    ((MainActivity) context).setRecyclerViewScrollEnabled(false);
+                } else if (context instanceof LocalPvPActivity) {
+                    RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                    ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
+                }
                 floatingImageView.setImageResource(current.getImagePath());
-                ((MainActivity) holder.characterImage.getContext()).setRecyclerViewScrollEnabled(false);
                 floatingImageView.setVisibility(View.VISIBLE);
-                isLongPress = true;  // Indicar que es una pulsación larga
+                isLongPress = true;
             }
         };
 
@@ -107,7 +113,8 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                 if (context instanceof MainActivity) {
                     ((MainActivity) context).setRecyclerViewScrollEnabled(true);
                 } else if (context instanceof LocalPvPActivity) {
-                    ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(true);  // Esto es correcto
+                    RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                    ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                 }
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -121,7 +128,8 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                             if (context instanceof MainActivity) {
                                 ((MainActivity) context).setRecyclerViewScrollEnabled(true);
                             } else if (context instanceof LocalPvPActivity) {
-                                ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(true);
+                                RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                                ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                             }
                         } else {
                             v.performClick();
@@ -134,9 +142,12 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                         if (context instanceof MainActivity) {
                             ((MainActivity) context).setRecyclerViewScrollEnabled(true);
                         } else if (context instanceof LocalPvPActivity) {
-                            ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(true);
+                            RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                            ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                         }
-                        floatingImageView.setVisibility(View.GONE);
+                        if(floatingImageView != null) {
+                            floatingImageView.setVisibility(View.GONE);
+                        }
                         v.removeCallbacks(enlargeImageRunnable);
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -148,7 +159,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
         });
     }
 
-    public Character updatePlayerBoard(String characterName, boolean answer, String player) {
+    public Character updatePlayerBoard(String player, String characterName, boolean answer) {
         List<Character> characters = "Player 1".equals(player) ? charactersP1 : charactersP2;
         Character lastCrossedOut = null;
         for (Character character : characters) {
@@ -163,28 +174,10 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
         notifyDataSetChanged();
         return lastCrossedOut;
     }
-
 
     @Override
     public int getItemCount() {
         return isMultiplayer ? ("Player 1".equals(currentPlayer) ? charactersP1.size() : charactersP2.size()) : charactersP1.size();
-    }
-
-    // Añadido para gestionar el tablero del jugador 2
-    public Character updatePlayer2Board(String characterName, boolean answer, String player) {
-        List<Character> characters = "Player 1".equals(player) ? charactersP1 : charactersP2;
-        Character lastCrossedOut = null;
-        for (Character character : characters) {
-            if (!character.getName().equals(characterName)) {
-                if (answer && !character.isCrossedOut()) {
-                    lastCrossedOut = character;
-                }
-                character.setCrossedOut(answer);
-            }
-        }
-        sortCharacters(characters);
-        notifyDataSetChanged();
-        return lastCrossedOut;
     }
 
     private void sortCharacters(List<Character> characters) {

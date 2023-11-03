@@ -4,7 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,24 +41,55 @@ public class LocalPvPActivity extends AppCompatActivity {
     // Variable para guardar el último personaje que se cruzó
     Character lastCrossedOutCharacterP1 = null;
     Character lastCrossedOutCharacterP2 = null;
+    RecyclerView characterRecyclerViewP1, characterRecyclerViewP2;
+    CharacterAdapter characterAdapterP1, characterAdapterP2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_pvp);
 
+// Obtiene los personajes aleatorios
         characters = getRandomCharacters(30);
 
-        boardP1 = new ArrayList<>(Arrays.asList(characters));
-        boardP2 = new ArrayList<>(Arrays.asList(characters));
-        characterAdapter = new CharacterAdapter(this, boardP1, boardP2, floatingImageView, true);
+// Crea listas para los tableros
+        boardP1 = new ArrayList<>();
+        boardP2 = new ArrayList<>();
 
+// Llena los tableros con personajes clonados
+        for (Character character : characters) {
+            boardP1.add(character.deepCopy());
+            boardP2.add(character.deepCopy());
+        }
 
-        characterRecyclerView = findViewById(R.id.character_recycler_view_pvp);
-        floatingImageView = findViewById(R.id.floating_image_view_pvp);
+        floatingImageView = new ImageView(this);
+        floatingImageView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        floatingImageView.setVisibility(View.GONE);
+        floatingImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ((FrameLayout) findViewById(R.id.container)).addView(floatingImageView);
+// Inicializa los RecyclerViews para cada jugador
+        characterRecyclerViewP1 = findViewById(R.id.character_recycler_view_pvp);
+        characterRecyclerViewP2 = findViewById(R.id.character_recycler_view_pvp_2);
 
-        characterRecyclerView.setAdapter(characterAdapter);
-        characterRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+// Inicializa los adaptadores para cada jugador
+        characterAdapterP1 = new CharacterAdapter(this, boardP1, boardP2, floatingImageView, true);
+        characterAdapterP2 = new CharacterAdapter(this, boardP1, boardP2, floatingImageView, true);
+
+// Configura los RecyclerViews para cada jugador
+        if (characterRecyclerViewP1 != null) {
+            characterRecyclerViewP1.setAdapter(characterAdapterP1);
+            MainActivity.ScrollableGridLayoutManager gridLayoutManager = new MainActivity.ScrollableGridLayoutManager(this, 2);
+            characterRecyclerViewP1.setLayoutManager(gridLayoutManager);
+        }
+
+        if (characterRecyclerViewP2 != null) {
+            characterRecyclerViewP2.setAdapter(characterAdapterP2);
+            MainActivity.ScrollableGridLayoutManager gridLayoutManager = new MainActivity.ScrollableGridLayoutManager(this, 2);
+            characterRecyclerViewP2.setLayoutManager(gridLayoutManager);
+        }
+
 
         askButtonP1 = findViewById(R.id.ask_button_p1);
         askButtonP2 = findViewById(R.id.ask_button_p2);
@@ -234,7 +267,11 @@ public class LocalPvPActivity extends AppCompatActivity {
         askButtonP2.setEnabled(true);
     }
     private void startTurn(String player) {
-        if ("Player 1".equals(player)) {
+        // Asegurarse de que los objetos RecyclerView no sean null antes de acceder a sus métodos
+        if (characterRecyclerViewP1 != null && characterRecyclerViewP2 != null) {
+            if ("Player 1".equals(player)) {
+                characterRecyclerViewP1.setVisibility(View.VISIBLE);
+                characterRecyclerViewP2.setVisibility(View.GONE);
             askButtonP1.setEnabled(true);
             questionsSpinnerP1.setEnabled(true);
             player1Container.setVisibility(View.VISIBLE);  // Mostrar sección del Jugador 1
@@ -243,14 +280,20 @@ public class LocalPvPActivity extends AppCompatActivity {
             questionsSpinnerP2.setEnabled(false);
             player2Container.setVisibility(View.GONE);  // Ocultar sección del Jugador 2
 
-        } else {
-            askButtonP1.setEnabled(false);
-            questionsSpinnerP1.setEnabled(false);
-            player1Container.setVisibility(View.GONE);  // Ocultar sección del Jugador 1
+            } else {
+                characterRecyclerViewP1.setVisibility(View.GONE);
+                characterRecyclerViewP2.setVisibility(View.VISIBLE);
+                askButtonP1.setEnabled(false);
+                questionsSpinnerP1.setEnabled(false);
+                player1Container.setVisibility(View.GONE);  // Ocultar sección del Jugador 1
 
-            askButtonP2.setEnabled(true);
-            questionsSpinnerP2.setEnabled(true);
-            player2Container.setVisibility(View.VISIBLE);  // Mostrar sección del Jugador 2
+                askButtonP2.setEnabled(true);
+                questionsSpinnerP2.setEnabled(true);
+                player2Container.setVisibility(View.VISIBLE);  // Mostrar sección del Jugador 2
+            }
+        } else {
+            // Mostrar algún mensaje de error o hacer algo para manejar el caso en que los objetos son null
+            Log.e("LocalPvPActivity", "RecyclerViews no inicializados");
         }
 
         // Actualizar el TextView de turno actual
@@ -258,15 +301,15 @@ public class LocalPvPActivity extends AppCompatActivity {
 
         // Verificar si hay un ganador después de cada turno
         if ("Player 1".equals(player)) {
-            checkForWinner(chosenCharacterP2, "Player 1");
+            checkForWinner(chosenCharacterP2, "Player 1", characterAdapterP1);
         } else {
-            checkForWinner(chosenCharacterP1, "Player 2");
+            checkForWinner(chosenCharacterP1, "Player 2", characterAdapterP2);
         }
     }
 
     // Método para verificar si alguno de los jugadores ha ganado
-    private void checkForWinner(Character chosenCharacter, String player) {
-        int numberOfUncrossed = characterAdapter.getNumberOfUncrossedCharacters();
+    private void checkForWinner(Character chosenCharacter, String player, CharacterAdapter adapter) {
+        int numberOfUncrossed = adapter.getNumberOfUncrossedCharacters();
         if (numberOfUncrossed == 1) {
             Character remainingCharacter = characterAdapter.getUncrossedCharacter();
             if (remainingCharacter != null) {
@@ -308,12 +351,11 @@ public class LocalPvPActivity extends AppCompatActivity {
     }
     private void updatePlayerBoard(String player, String characterName, boolean answer) {
         if ("Player 1".equals(player)) {
-            lastCrossedOutCharacterP1 = characterAdapter.updatePlayerBoard(characterName, answer, "Player 1");
+            lastCrossedOutCharacterP1 = characterAdapterP1.updatePlayerBoard("Player 1", characterName, answer);
         } else {
-            lastCrossedOutCharacterP2 = characterAdapter.updatePlayerBoard(characterName, answer, "Player 2");
+            lastCrossedOutCharacterP2 = characterAdapterP2.updatePlayerBoard("Player 2", characterName, answer);
         }
     }
-
 
     private boolean characterInArray(Character character, Character[] array) {
         for (Character c : array) {
@@ -348,9 +390,9 @@ public class LocalPvPActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.show();
     }
-    public void setRecyclerViewScrollEnabled(boolean enabled) {
-        if (characterRecyclerView.getLayoutManager() instanceof MainActivity.ScrollableGridLayoutManager) {
-            MainActivity.ScrollableGridLayoutManager gridLayoutManager = (MainActivity.ScrollableGridLayoutManager) characterRecyclerView.getLayoutManager();
+    public void setRecyclerViewScrollEnabled(RecyclerView recyclerView, boolean enabled) {
+        if (recyclerView != null && recyclerView.getLayoutManager() instanceof MainActivity.ScrollableGridLayoutManager) {
+            MainActivity.ScrollableGridLayoutManager gridLayoutManager = (MainActivity.ScrollableGridLayoutManager) recyclerView.getLayoutManager();
             gridLayoutManager.setScrollEnabled(enabled);
         }
     }

@@ -162,5 +162,23 @@ public class Character {
                 this.wearsScarfOrBandana == other.wearsScarfOrBandana;
     }
 
+    public Character deepCopy() {
+        return new Character(
+                this.name,
+                this.hasGlasses,
+                this.hasBeard,
+                this.hasMustache,
+                this.isBald,
+                this.wearsHat,
+                this.wearsMakeup,
+                this.hasPiercing,
+                this.hasLongHair,
+                this.hasFreckles,
+                this.hasTattoos,
+                this.wearsScarfOrBandana,
+                this.isCrossedOut,
+                this.imagePath
+        );
+    }
 }
 
