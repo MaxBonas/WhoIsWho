@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="questions">
+        <item>Trägt eine Brille</item>
+        <item>Hat einen Bart</item>
+        <item>Trägt einen Schnurrbart</item>
+        <item>Hat eine Glatze oder fehlende Haare</item>
+        <item>Trägt einen Hut oder eine Kappe</item>
+        <item>Trägt Make-up</item>
+        <item>Trägt ein Piercing</item>
+        <item>Trägt langes Haar</item>
+        <item>Trägt Sommersprossen</item>
+        <item>Trägt Tätowierungen</item>
+        <item>Trägt ein Halstuch oder eine Bandana</item>
+    </string-array>
+</resources>

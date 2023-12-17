@@ -61,7 +61,7 @@ public class TutorialActivity extends AppCompatActivity {
 
     private void startGame() {
         Intent intent = new Intent(TutorialActivity.this, MainActivity.class);
-        intent.putExtra("DIFFICULTY", "facil");
+        intent.putExtra("DIFFICULTY", getString(R.string.easy));
         startActivity(intent);
         finish();
     }

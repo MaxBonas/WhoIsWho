@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="questions">
+        <item>Wears glasses</item>
+        <item>Has a beard</item>
+        <item>Has a mustache</item>
+        <item>Is bald or lacks hair</item>
+        <item>Wears a hat or cap</item>
+        <item>Wears makeup</item>
+        <item>Has a piercing</item>
+        <item>Has long hair</item>
+        <item>Has freckles</item>
+        <item>Has tattoos</item>
+        <item>Wears a scarf or bandana</item>
+    </string-array>
+</resources>

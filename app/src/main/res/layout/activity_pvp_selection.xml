@@ -14,7 +14,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PvP Local"
+                android:text="@string/pvp_local"
                 android:layout_marginTop="16dp" />
 
         <Button
@@ -22,7 +22,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PvP Online"
+                android:text="@string/pvp_online"
                 android:layout_marginTop="16dp" />
 
 

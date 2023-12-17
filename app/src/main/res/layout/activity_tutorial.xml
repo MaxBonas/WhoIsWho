@@ -23,6 +23,6 @@
             android:paddingTop="-10dp"
             android:paddingRight="-10dp"
             android:paddingBottom="-10dp"
-            android:text="Anterior" />
+            android:text="@string/previous" />
 
                 </FrameLayout>

@@ -30,7 +30,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tutorial"
+                android:text="@string/tutorial"
                 android:layout_marginTop="10dp"/>
 
         <Button
@@ -38,7 +38,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jugar vs IA"
+                android:text="@string/play_vs_ai"
                 android:layout_marginTop="10dp"/>
 
         <Button
@@ -46,7 +46,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jugar vs Player"
+                android:text="@string/play_vs_player"
                 android:layout_marginTop="10dp"/>
 
         <Button
@@ -54,7 +54,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Modo Historia"
+                android:text="@string/story_mode"
                 android:layout_marginTop="10dp"/>
 
         <Button
@@ -62,7 +62,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Puntuaciones"
+                android:text="@string/scores_title"
                 android:layout_marginTop="10dp"/>
 
         <Button
@@ -70,7 +70,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Música ON/OFF"
+                android:text="@string/music_on_off"
                 android:layout_marginTop="10dp"/>
 
         <Button
@@ -78,7 +78,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salir del juego"
+                android:text="@string/exit_game"
                 android:layout_marginTop="10dp"/>
 
     </LinearLayout>

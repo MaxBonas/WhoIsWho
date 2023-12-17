@@ -20,7 +20,7 @@ public class PvPSelectionActivity extends AppCompatActivity {
 
         Button onlinePvPButton = findViewById(R.id.online_pvp_button);
         onlinePvPButton.setOnClickListener(v -> {
-            Toast.makeText(this, "PvP Online Próximamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.online_pvp_coming_soon), Toast.LENGTH_SHORT).show();
         });
     }
 }

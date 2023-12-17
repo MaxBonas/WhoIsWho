@@ -30,7 +30,7 @@ public class ScoresActivity extends AppCompatActivity {
     private RecyclerView scoresRecyclerView;
     private List<ScoreEntry> scores;
     private Button sortButton;
-    private String currentSort = "Puntuación"; // Puntuación es el orden inicial
+    private String currentSort = getString(R.string.score_alone); // Puntuación es el orden inicial
 
     // Mapa para almacenar la puntuación más alta de cada jugador en cada nivel de dificultad
     private final Map<String, Map<String, ScoreEntry>> playerBestScores = new HashMap<>();
@@ -76,7 +76,7 @@ public class ScoresActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-                Toast.makeText(ScoresActivity.this, "Error al cargar puntuaciones: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScoresActivity.this, getString(R.string.error_loading_scores, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -107,25 +107,25 @@ public class ScoresActivity extends AppCompatActivity {
         Comparator<ScoreEntry> comparator = null;
 
         switch (currentSort) {
-            case "Puntuación":
+            case getString(R.string.score_alone):
                 comparator = (o1, o2) -> Integer.compare(o2.getScore(), o1.getScore());
                 currentSort = "Fecha";
-                sortButton.setText("Ordenar por Fecha");
+                sortButton.setText(getString(R.string.sort_by_date));
                 break;
             case "Fecha":
                 comparator = (o1, o2) -> o2.getDate().compareTo(o1.getDate());
                 currentSort = "Dificultad";
-                sortButton.setText("Ordenar por Dificultad");
+                sortButton.setText(getString(R.string.sort_by_difficulty));
                 break;
             case "Dificultad":
                 comparator = (o1, o2) -> o1.getDifficulty().compareTo(o2.getDifficulty());
                 currentSort = "Jugador";
-                sortButton.setText("Ordenar por Jugador");
+                sortButton.setText(getString(R.string.sort_by_player));
                 break;
             case "Jugador":
                 comparator = (o1, o2) -> o1.getPlayerId().compareTo(o2.getPlayerId());
-                currentSort = "Puntuación";
-                sortButton.setText("Ordenar por Puntuación");
+                currentSort = getString(R.string.score_alone);
+                sortButton.setText(getString(R.string.sort_by_score));
                 break;
         }
 

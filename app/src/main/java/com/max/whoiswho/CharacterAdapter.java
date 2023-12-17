@@ -17,25 +17,18 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder> {
-    private final List<Character> charactersP1;
-    private final List<Character> charactersP2;
+    private final List<Character> characters;
     private final LayoutInflater inflater;
     private final ImageView floatingImageView;
     private boolean isLongPress = false;
-    private final boolean isMultiplayer;
     private String currentPlayer;
+    private Character lastCrossedOutCharacter = null;
 
-    public CharacterAdapter(Context context, List<Character> charactersP1, List<Character> charactersP2, ImageView floatingImageView, boolean isMultiplayer) {
-        this.charactersP1 = new ArrayList<>(charactersP1);
-        this.charactersP2 = new ArrayList<>(charactersP2);
+    public CharacterAdapter(Context context, List<Character> charactersP1, ImageView floatingImageView) {
+        this.characters = new ArrayList<>(charactersP1);
         this.inflater = LayoutInflater.from(context);
         this.floatingImageView = floatingImageView;
-        this.isMultiplayer = isMultiplayer;
-        this.currentPlayer = "Player 1"; // Default
-    }
-
-    public void setCurrentPlayer(String currentPlayer) {
-        this.currentPlayer = currentPlayer;
+        this.currentPlayer = getString(R.string.player_1);
     }
 
     @NonNull
@@ -47,18 +40,6 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
 
     @Override
     public void onBindViewHolder(@NonNull CharacterViewHolder holder, int position) {
-        List<Character> charactersTemp = isMultiplayer ? ("Player 1".equals(currentPlayer) ? charactersP1 : charactersP2) : charactersP1;
-        Context context = holder.characterImage.getContext();
-        if (context instanceof MainActivity) {
-            charactersTemp = charactersP1;
-        } else if (context instanceof LocalPvPActivity) {
-            charactersTemp = isMultiplayer ? ("Player 1".equals(currentPlayer) ? charactersP1 : charactersP2) : charactersP1;
-        } else {
-            charactersTemp = charactersP1;  // Por defecto
-        }
-
-        final List<Character> characters = charactersTemp;  // Variable final
-
         Character current = characters.get(position);
         holder.characterImage.setImageResource(current.getImagePath());
         holder.characterName.setText(current.getName());
@@ -80,14 +61,30 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
             public void onClick(View v) {
                 if (!isLongPress) {
                     current.setCrossedOut(!current.isCrossedOut());
-                    sortCharacters(characters);  // Ahora debería funcionar
+                    sortCharacters(characters);
+                    if (!current.isCrossedOut()) {
+                        // Si se va a tachar, actualiza lastCrossedOutCharacter
+                        lastCrossedOutCharacter = current;
+                    } else {
+                        // Si se va a destachar y es el último tachado, limpia lastCrossedOutCharacter
+                        if (lastCrossedOutCharacter != null && lastCrossedOutCharacter.getName().equals(current.getName())) {
+                            lastCrossedOutCharacter = null;
+                        }
+                    }
                     notifyDataSetChanged();
+
+                    // Obtén el contexto de la vista para usarlo en el chequeo de ganador.
+                    Context context = v.getContext();
+                    if (context instanceof LocalPvPActivity) {
+                        ((LocalPvPActivity) context).checkForWinnerAfterCrossing(currentPlayer);
+                    }
                 } else {
-                    // Restablecer la bandera para la próxima interacción
                     isLongPress = false;
                 }
             }
         });
+
+
 
         Runnable enlargeImageRunnable = new Runnable() {
             @Override
@@ -96,7 +93,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                 if (context instanceof MainActivity) {
                     ((MainActivity) context).setRecyclerViewScrollEnabled(false);
                 } else if (context instanceof LocalPvPActivity) {
-                    RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                    RecyclerView currentRecyclerView = getString(R.string.player_1).equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
                     ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                 }
                 floatingImageView.setImageResource(current.getImagePath());
@@ -113,7 +110,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                 if (context instanceof MainActivity) {
                     ((MainActivity) context).setRecyclerViewScrollEnabled(true);
                 } else if (context instanceof LocalPvPActivity) {
-                    RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                    RecyclerView currentRecyclerView = getString(R.string.player_1).equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
                     ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                 }
                 switch (event.getAction()) {
@@ -121,28 +118,26 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                         v.postDelayed(enlargeImageRunnable, 500);
                         break;
                     case MotionEvent.ACTION_UP:
-                        // Si se ha ejecutado una pulsación larga, simplemente oculte la imagen.
-                        // Si no, ejecute el evento de clic.
                         if (isLongPress) {
                             floatingImageView.setVisibility(View.GONE);
                             if (context instanceof MainActivity) {
                                 ((MainActivity) context).setRecyclerViewScrollEnabled(true);
                             } else if (context instanceof LocalPvPActivity) {
-                                RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                                RecyclerView currentRecyclerView = getString(R.string.player_1).equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
                                 ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                             }
                         } else {
                             v.performClick();
                         }
                         v.removeCallbacks(enlargeImageRunnable);
-                        isLongPress = false;  // Restablecer la bandera para la próxima interacción
+                        isLongPress = false;
                         break;
 
                     case MotionEvent.ACTION_CANCEL:
                         if (context instanceof MainActivity) {
                             ((MainActivity) context).setRecyclerViewScrollEnabled(true);
                         } else if (context instanceof LocalPvPActivity) {
-                            RecyclerView currentRecyclerView = "Player 1".equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
+                            RecyclerView currentRecyclerView = getString(R.string.player_1).equals(currentPlayer) ? ((LocalPvPActivity) context).characterRecyclerViewP1 : ((LocalPvPActivity) context).characterRecyclerViewP2;
                             ((LocalPvPActivity) context).setRecyclerViewScrollEnabled(currentRecyclerView, true);  // Pasar el RecyclerView correcto
                         }
                         if(floatingImageView != null) {
@@ -151,7 +146,6 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
                         v.removeCallbacks(enlargeImageRunnable);
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        // No hacer nada
                         break;
                 }
                 return true;
@@ -159,25 +153,9 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
         });
     }
 
-    public Character updatePlayerBoard(String player, String characterName, boolean answer) {
-        List<Character> characters = "Player 1".equals(player) ? charactersP1 : charactersP2;
-        Character lastCrossedOut = null;
-        for (Character character : characters) {
-            if (!character.getName().equals(characterName)) {
-                if (answer && !character.isCrossedOut()) {
-                    lastCrossedOut = character;
-                }
-                character.setCrossedOut(answer);
-            }
-        }
-        sortCharacters(characters);
-        notifyDataSetChanged();
-        return lastCrossedOut;
-    }
-
     @Override
     public int getItemCount() {
-        return isMultiplayer ? ("Player 1".equals(currentPlayer) ? charactersP1.size() : charactersP2.size()) : charactersP1.size();
+        return characters.size();
     }
 
     private void sortCharacters(List<Character> characters) {
@@ -201,50 +179,43 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
             characterName = itemView.findViewById(R.id.character_name);
         }
     }
-    // Método para restaurar el último personaje tachado para el Jugador 1
-    public void restoreCharacterP1(String characterName) {
-        for (Character character : charactersP1) {
-            if (character.getName().equals(characterName)) {
-                character.setCrossedOut(false);
-                break;
+
+    public void restoreLastCrossedOut() {
+        if (lastCrossedOutCharacter != null) {
+            for (Character character : characters) {
+                if (character.getName().equals(lastCrossedOutCharacter.getName())) {
+                    character.setCrossedOut(false);
+                    break;
+                }
             }
+            lastCrossedOutCharacter = null; // Resetea la referencia una vez restaurado
+            sortCharacters(characters);
+            notifyDataSetChanged();
         }
-        sortCharacters(charactersP1);
-        notifyDataSetChanged();
     }
 
-    // Método para restaurar el último personaje tachado para el Jugador 2
-    public void restoreCharacterP2(String characterName) {
-        for (Character character : charactersP2) {
-            if (character.getName().equals(characterName)) {
-                character.setCrossedOut(false);
-                break;
-            }
-        }
-        sortCharacters(charactersP2);
-        notifyDataSetChanged();
-    }
 
     public int getNumberOfUncrossedCharacters() {
-        // Debes decidir qué lista usar en función de tu lógica.
-        // Por ahora, sólo estamos usando charactersP1 para mantenerlo simple.
         int count = 0;
-        for (Character character : charactersP1) {
+        for (Character character : characters) {
             if (!character.isCrossedOut()) {
                 count++;
             }
         }
         return count;
     }
+
     public Character getUncrossedCharacter() {
-        // Debes decidir qué lista usar en función de tu lógica.
-        // Por ahora, sólo estamos usando charactersP1 para mantenerlo simple.
-        for (Character character : charactersP1) {
+        for (Character character : characters) {
             if (!character.isCrossedOut()) {
                 return character;
             }
         }
         return null;
+    }
+
+    public Character getLastCrossedOutCharacter() {
+        return lastCrossedOutCharacter;
     }
 }
 

@@ -35,7 +35,7 @@
         android:alpha="0.6"
         android:background="@color/semi_transparent_garnet"
         android:padding="8dp"
-        android:text="Saltar"
+        android:text="@string/skip_button"
         android:textSize="16sp" />
 
 </FrameLayout>

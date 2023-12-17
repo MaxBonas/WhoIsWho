@@ -57,7 +57,7 @@ public class TitleActivity extends AppCompatActivity {
             if (account != null) {
                 intent.putExtra("playerName", account.getDisplayName());
             } else {
-                intent.putExtra("playerName", "Invitado");
+                intent.putExtra("playerName", getString(R.string.guest));
             }
             startActivity(intent);
             finish();
@@ -77,9 +77,9 @@ public class TitleActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 account = task.getResult(ApiException.class);
-                Toast.makeText(this, "Inicio de sesión exitoso como " + account.getDisplayName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.sign_in_success, account.getDisplayName(), Toast.LENGTH_LONG).show();
             } catch (ApiException e) {
-                Toast.makeText(this, "Inicio de sesión fallido. Continuarás como invitado.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.sign_in_failed), Toast.LENGTH_LONG).show();
             }
             continueButton.setEnabled(true); // Habilitar el botón en ambos casos
         }
@@ -92,13 +92,13 @@ public class TitleActivity extends AppCompatActivity {
             account = GoogleSignIn.getLastSignedInAccount(this);
             if (account != null) {
                 continueButton.setEnabled(true);
-                Toast.makeText(this, "Ya estabas autenticado como " + account.getDisplayName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.already_authenticated, account.getDisplayName(), Toast.LENGTH_LONG).show();
             } else {
                 signIn();
             }
         } else {
             continueButton.setEnabled(true);
-            Toast.makeText(this, "Sin conexión a Internet. Continuarás como invitado.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -113,6 +113,6 @@ public class TitleActivity extends AppCompatActivity {
         if (account != null) {
             return account.getDisplayName();
         }
-        return "Invitado";
+        return getString(R.string.guest);
     }
 }

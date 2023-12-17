@@ -8,7 +8,7 @@
             android:id="@+id/sortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ordenar por Puntuación"
+            android:text="@string/sort_by_score"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"/>
@@ -17,7 +17,7 @@
             android:id="@+id/titleTextView"
             android:layout_width="248dp"
             android:layout_height="wrap_content"
-            android:text="Puntuaciones"
+            android:text="@string/scores_title"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_below="@id/sortButton"

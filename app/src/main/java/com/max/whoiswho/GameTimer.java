@@ -35,13 +35,13 @@ public class GameTimer {
                 double percentageLeft = (double) millisUntilFinished / duration;
                 score = (int) (percentageLeft * 100);
 
-                scoreTextView.setText("Puntuación: " + score);
+                scoreTextView.setText(getString(R.string.score, score));
             }
 
             @Override
             public void onFinish() {
-                timerTextView.setText("¡Tiempo agotado!");
-                mainActivity.endGame("¡Has perdido!");  // Finaliza el juego cuando se agote el tiempo
+                timerTextView.setText(getString(R.string.time_up));
+                mainActivity.endGame(getString(R.string.you_lose));  // Finaliza el juego cuando se agote el tiempo
             }
         };
     }

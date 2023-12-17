@@ -20,7 +20,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dificultad"
+                android:text="@string/difficulty"
                 android:textSize="36sp"
                 android:textColor="#FFFFFF"
                 android:layout_marginBottom="32dp" android:background="@color/semi_transparent_garnet"/>
@@ -30,7 +30,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fácil"
+                android:text="@string/easy_button"
                 android:layout_marginBottom="16dp" />
 
         <Button
@@ -38,7 +38,7 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Normal"
+                android:text="@string/normal_button"
                 android:layout_marginBottom="16dp" />
 
         <Button
@@ -46,21 +46,21 @@
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Difícil" android:layout_marginBottom="16dp"/>
+                android:text="@string/hard_button" android:layout_marginBottom="16dp"/>
 
         <Button
                 android:id="@+id/very_hard_button"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Muy Difícil"
+                android:text="@string/very_hard_button"
                 android:layout_marginBottom="16dp"/>
         <Button
                 android:id="@+id/extreme_button"
                 style="@style/CustomButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Extremo" />
+                android:text="@string/extreme_button" />
 
     </LinearLayout>
 

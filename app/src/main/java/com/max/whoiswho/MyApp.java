@@ -1,4 +1,4 @@
-package com.max.whoiswho;
+ package com.max.whoiswho;
 
 import android.app.Application;
 import androidx.appcompat.app.AppCompatDelegate;

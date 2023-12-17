@@ -28,11 +28,11 @@ public class IntroActivity extends AppCompatActivity {
     };
 
     private final String[] texts = {
-            "Como detective y fisonomista profesional, enfrento casos que desafían la lógica misma.",
-            "Uno tras otro, distintos testigos ocupan esa silla, respondiendo a mis preguntas para desgranar el caso.",
-            "A menudo, las unicas imágenes del círculo íntimo de la víctima se extraen de los rincones más oscuros de las redes sociales.",
-            "Los testigos... siempre un enigma. Ofrecen pistas envueltas en sombras y percepciones. Es esencial actuar con cautela, evitando descartar sospechosos a la ligera.",
-            "¡Comienza una nueva búsqueda! Adentrémonos en el misterio y descubramos... ¡Quién es!"
+            getString(R.string.intro_text_1)
+            getString(R.string.intro_text_2)
+            getString(R.string.intro_text_3)
+            getString(R.string.intro_text_4)
+            getString(R.string.intro_text_5)
     };
 
     private int currentIndex = 0;

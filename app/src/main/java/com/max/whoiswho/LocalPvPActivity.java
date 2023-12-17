@@ -20,9 +20,6 @@ public class LocalPvPActivity extends AppCompatActivity {
 
     Character[] characters = CharacterRepository.getAllCharacters();
     Character chosenCharacterP1, chosenCharacterP2;
-
-    RecyclerView characterRecyclerView;
-    CharacterAdapter characterAdapter;
     Button askButtonP1, askButtonP2;
     TextView answerTextViewP1, answerTextViewP2;
     Spinner questionsSpinnerP1, questionsSpinnerP2;
@@ -30,15 +27,12 @@ public class LocalPvPActivity extends AppCompatActivity {
     CountDownTimer timerP1, timerP2;
     List<Character> boardP1;
     List<Character> boardP2;
-    String currentPlayer = "Player 1";
-    // Agregar TextView para los temporizadores
+    String currentPlayer = getString(R.string.player_1);
     TextView timerTextViewP1, timerTextViewP2;
     TextView currentPlayerTextView;
     LinearLayout player1Container, player2Container;
-    // Variables para rastrear si un jugador ya ha hecho una pregunta en el turno actual
     boolean hasAskedQuestionP1 = false;
     boolean hasAskedQuestionP2 = false;
-    // Variable para guardar el último personaje que se cruzó
     Character lastCrossedOutCharacterP1 = null;
     Character lastCrossedOutCharacterP2 = null;
     RecyclerView characterRecyclerViewP1, characterRecyclerViewP2;
@@ -49,14 +43,11 @@ public class LocalPvPActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_pvp);
 
-// Obtiene los personajes aleatorios
         characters = getRandomCharacters(30);
 
-// Crea listas para los tableros
         boardP1 = new ArrayList<>();
         boardP2 = new ArrayList<>();
 
-// Llena los tableros con personajes clonados
         for (Character character : characters) {
             boardP1.add(character.deepCopy());
             boardP2.add(character.deepCopy());
@@ -69,15 +60,12 @@ public class LocalPvPActivity extends AppCompatActivity {
         floatingImageView.setVisibility(View.GONE);
         floatingImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ((FrameLayout) findViewById(R.id.container)).addView(floatingImageView);
-// Inicializa los RecyclerViews para cada jugador
         characterRecyclerViewP1 = findViewById(R.id.character_recycler_view_pvp);
         characterRecyclerViewP2 = findViewById(R.id.character_recycler_view_pvp_2);
 
-// Inicializa los adaptadores para cada jugador
-        characterAdapterP1 = new CharacterAdapter(this, boardP1, boardP2, floatingImageView, true);
-        characterAdapterP2 = new CharacterAdapter(this, boardP1, boardP2, floatingImageView, true);
+        characterAdapterP1 = new CharacterAdapter(this, boardP1, floatingImageView);
+        characterAdapterP2 = new CharacterAdapter(this, boardP2, floatingImageView);
 
-// Configura los RecyclerViews para cada jugador
         if (characterRecyclerViewP1 != null) {
             characterRecyclerViewP1.setAdapter(characterAdapterP1);
             MainActivity.ScrollableGridLayoutManager gridLayoutManager = new MainActivity.ScrollableGridLayoutManager(this, 2);
@@ -102,15 +90,13 @@ public class LocalPvPActivity extends AppCompatActivity {
         player1Container = findViewById(R.id.player1_container);
         player2Container = findViewById(R.id.player2_container);
 
-        // Listeners for question buttons
         askButtonP1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!hasAskedQuestionP1) {
                     int questionIndex = questionsSpinnerP1.getSelectedItemPosition();
                     boolean answer = QuestionManager.askQuestion(chosenCharacterP2, questionIndex);
-                    answerTextViewP1.setText(answer ? "Sí" : "No");
-                    updatePlayerBoard("Player 1", chosenCharacterP2.getName(), answer);
+                    answerTextViewP1.setText(answer ? getString(R.string.yes) : getString(R.string.no));
                     hasAskedQuestionP1 = true;
                     askButtonP1.setEnabled(false);
                 }
@@ -123,8 +109,7 @@ public class LocalPvPActivity extends AppCompatActivity {
                 if (!hasAskedQuestionP2) {
                     int questionIndex = questionsSpinnerP2.getSelectedItemPosition();
                     boolean answer = QuestionManager.askQuestion(chosenCharacterP1, questionIndex);
-                    answerTextViewP2.setText(answer ? "Sí" : "No");
-                    updatePlayerBoard("Player 2", chosenCharacterP1.getName(), answer);
+                    answerTextViewP2.setText(answer ? getString(R.string.yes) : getString(R.string.no));
                     hasAskedQuestionP2 = true;
                     askButtonP2.setEnabled(false);
                 }
@@ -132,10 +117,8 @@ public class LocalPvPActivity extends AppCompatActivity {
         });
 
         chooseCharacterForP1();
-        // Inicializar los TextView para los temporizadores
         timerTextViewP1 = findViewById(R.id.timer_textview_p1);
         timerTextViewP2 = findViewById(R.id.timer_textview_p2);
-        // Inicializa el botón de fin de turno
         endTurnButton();
     }
     private Character[] getRandomCharacters(int count) {
@@ -162,9 +145,8 @@ public class LocalPvPActivity extends AppCompatActivity {
     }
     private void chooseCharacterForP1() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Player 1: Escoge tu personaje");
+        builder.setTitle(R.string.choose_character_p1));
 
-        // Supongamos que tenemos un método que devuelve los nombres de los personajes en un array de strings
         String[] characterNames = getCharacterNames();
         builder.setItems(characterNames, new DialogInterface.OnClickListener() {
             @Override
@@ -177,7 +159,7 @@ public class LocalPvPActivity extends AppCompatActivity {
 
     private void chooseCharacterForP2() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Player 2: Escoge tu personaje");
+        builder.setTitle(R.string.choose_character_p2));
 
         String[] characterNames = getCharacterNames();
         builder.setItems(characterNames, new DialogInterface.OnClickListener() {
@@ -190,29 +172,26 @@ public class LocalPvPActivity extends AppCompatActivity {
     }
 
     private void startGame() {
-        // Inicializar temporizadores aquí
-        timerP1 = createTimer("Player 1");
-        timerP2 = createTimer("Player 2");
+        timerP1 = createTimer(getString(R.string.player_1));
+        timerP2 = createTimer(getString(R.string.player_2));
 
-        // Habilitar elementos de la UI aquí
         askButtonP1.setEnabled(true);
-        questionsSpinnerP1.setEnabled(true);  // Habilitar spinner
+        questionsSpinnerP1.setEnabled(true);
 
-        askButtonP2.setEnabled(false);  // Inicialmente deshabilitado
-        questionsSpinnerP2.setEnabled(false);  // Inicialmente deshabilitado
+        askButtonP2.setEnabled(false);
+        questionsSpinnerP2.setEnabled(false);
 
-        nextTurn("Player 1");
+        nextTurn(getString(R.string.player_1));
     }
     private CountDownTimer createTimer(String player) {
         return new CountDownTimer(2 * 60 * 1000, 1000) {
             public void onTick(long millisUntilFinished) {
-                // Actualizar la UI para mostrar el tiempo restante
                 String timeLeft = String.format(Locale.getDefault(), "%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
 
-                if ("Player 1".equals(player)) {
+                if (getString(R.string.player_1).equals(player)) {
                     timerTextViewP1.setText(timeLeft);
                 } else {
                     timerTextViewP2.setText(timeLeft);
@@ -220,12 +199,12 @@ public class LocalPvPActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                endGame(player + " ha perdido");
+                endGame(player, getString(R.string.has_lost));
             }
         };
     }
     private void switchTimers(String activePlayer) {
-        if ("Player 1".equals(activePlayer)) {
+        if (getString(R.string.player_1).equals(activePlayer)) {
             if (timerP2 != null) timerP2.cancel();
             if (timerP1 != null) timerP1.start();
         } else {
@@ -233,20 +212,19 @@ public class LocalPvPActivity extends AppCompatActivity {
             if (timerP2 != null) timerP2.start();
         }
     }
-    // Añadir un botón para confirmar el fin del turno
     private void endTurnButton() {
         Button endTurnButton = findViewById(R.id.end_turn_button);
         endTurnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextTurn(currentPlayer.equals("Player 1") ? "Player 2" : "Player 1");
+                nextTurn(currentPlayer.equals(getString(R.string.player_1)) ? getString(R.string.player_2) : getString(R.string.player_1));
             }
         });
     }
 
     private void nextTurn(String nextPlayer) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Turno de " + nextPlayer);
+        builder.setTitle(R.string.turn_of, nextPlayer);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -255,105 +233,103 @@ public class LocalPvPActivity extends AppCompatActivity {
         });
         builder.setCancelable(false);
         builder.show();
-        // Cambiar el jugador actual
         currentPlayer = nextPlayer;
 
-        // Cambiar los temporizadores
         switchTimers(currentPlayer);
-        // Reiniciar las variables de preguntas y habilitar los botones de nuevo
         hasAskedQuestionP1 = false;
         hasAskedQuestionP2 = false;
         askButtonP1.setEnabled(true);
         askButtonP2.setEnabled(true);
     }
     private void startTurn(String player) {
-        // Asegurarse de que los objetos RecyclerView no sean null antes de acceder a sus métodos
         if (characterRecyclerViewP1 != null && characterRecyclerViewP2 != null) {
-            if ("Player 1".equals(player)) {
+            if (getString(R.string.player_1).equals(player)) {
                 characterRecyclerViewP1.setVisibility(View.VISIBLE);
                 characterRecyclerViewP2.setVisibility(View.GONE);
             askButtonP1.setEnabled(true);
             questionsSpinnerP1.setEnabled(true);
-            player1Container.setVisibility(View.VISIBLE);  // Mostrar sección del Jugador 1
+            player1Container.setVisibility(View.VISIBLE);
 
             askButtonP2.setEnabled(false);
             questionsSpinnerP2.setEnabled(false);
-            player2Container.setVisibility(View.GONE);  // Ocultar sección del Jugador 2
+            player2Container.setVisibility(View.GONE);
 
             } else {
                 characterRecyclerViewP1.setVisibility(View.GONE);
                 characterRecyclerViewP2.setVisibility(View.VISIBLE);
                 askButtonP1.setEnabled(false);
                 questionsSpinnerP1.setEnabled(false);
-                player1Container.setVisibility(View.GONE);  // Ocultar sección del Jugador 1
+                player1Container.setVisibility(View.GONE);
 
                 askButtonP2.setEnabled(true);
                 questionsSpinnerP2.setEnabled(true);
-                player2Container.setVisibility(View.VISIBLE);  // Mostrar sección del Jugador 2
+                player2Container.setVisibility(View.VISIBLE);
             }
         } else {
-            // Mostrar algún mensaje de error o hacer algo para manejar el caso en que los objetos son null
             Log.e("LocalPvPActivity", "RecyclerViews no inicializados");
         }
 
-        // Actualizar el TextView de turno actual
-        currentPlayerTextView.setText("Turno de " + player);
+        currentPlayerTextView.setText(getString(R.string.turn_of);
 
-        // Verificar si hay un ganador después de cada turno
-        if ("Player 1".equals(player)) {
-            checkForWinner(chosenCharacterP2, "Player 1", characterAdapterP1);
+        if (getString(R.string.player_1).equals(player)) {
+            checkForWinner(chosenCharacterP2, getString(R.string.player_1), characterAdapterP1);
         } else {
-            checkForWinner(chosenCharacterP1, "Player 2", characterAdapterP2);
+            checkForWinner(chosenCharacterP1, getString(R.string.player_2), characterAdapterP2);
         }
     }
 
-    // Método para verificar si alguno de los jugadores ha ganado
     private void checkForWinner(Character chosenCharacter, String player, CharacterAdapter adapter) {
         int numberOfUncrossed = adapter.getNumberOfUncrossedCharacters();
         if (numberOfUncrossed == 1) {
-            Character remainingCharacter = characterAdapter.getUncrossedCharacter();
-            if (remainingCharacter != null) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("¿Crees que es " + remainingCharacter.getName() + "?");
-
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (remainingCharacter.getName().equals(chosenCharacter.getName())) {
-                            endGame(currentPlayer + " ha ganado");
-                        } else {
-                            endGame(currentPlayer + " ha perdido");
-                        }
-                    }
-                });
-
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        restoreLastCrossedOut(player);
-                    }
-                });
-
-                builder.setCancelable(false);
-                builder.show();
-            }
+            Character remainingCharacter = adapter.getUncrossedCharacter();
+            promptGuess(remainingCharacter, chosenCharacter, player, adapter);
         }
+    }
+
+    private void promptGuess(Character remainingCharacter, Character chosenCharacter, String player, CharacterAdapter adapter) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.guess_character_prompt, remainingCharacter.getName()), remainingCharacter.getName() + "?");
+
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (remainingCharacter.getName().equals(chosenCharacter.getName())) {
+                    endGame(player + " ha ganado");
+                } else {
+                    endGame(player + " ha perdido");
+                }
+            }
+        });
+
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Restaura el último personaje tachado para el jugador actual
+                if (player.equals(getString(R.string.player_1))) {
+                    if (lastCrossedOutCharacterP1 != null) {
+                        characterAdapterP1.restoreLastCrossedOut();
+                        lastCrossedOutCharacterP1 = null;
+                    }
+                } else {
+                    if (lastCrossedOutCharacterP2 != null) {
+                        characterAdapterP2.restoreLastCrossedOut();
+                        lastCrossedOutCharacterP2 = null;
+                    }
+                }
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
     }
 
     private void restoreLastCrossedOut(String player) {
-        if ("Player 1".equals(player) && lastCrossedOutCharacterP1 != null) {
-            // Aquí restauras el último personaje tachado para el Jugador 1
-            characterAdapter.restoreCharacterP1(lastCrossedOutCharacterP1.getName());
-        } else if ("Player 2".equals(player) && lastCrossedOutCharacterP2 != null) {
-            // Aquí restauras el último personaje tachado para el Jugador 2
-            characterAdapter.restoreCharacterP2(lastCrossedOutCharacterP2.getName());
-        }
-    }
-    private void updatePlayerBoard(String player, String characterName, boolean answer) {
-        if ("Player 1".equals(player)) {
-            lastCrossedOutCharacterP1 = characterAdapterP1.updatePlayerBoard("Player 1", characterName, answer);
-        } else {
-            lastCrossedOutCharacterP2 = characterAdapterP2.updatePlayerBoard("Player 2", characterName, answer);
+        if (getString(R.string.player_1).equals(player) && lastCrossedOutCharacterP1 != null) {
+            characterAdapterP1.restoreLastCrossedOut();
+            lastCrossedOutCharacterP1 = null;
+        } else if (getString(R.string.player_2).equals(player) && lastCrossedOutCharacterP2 != null) {
+            characterAdapterP2.restoreLastCrossedOut();
+            lastCrossedOutCharacterP2 = null;
         }
     }
 
@@ -367,7 +343,6 @@ public class LocalPvPActivity extends AppCompatActivity {
     }
 
     private String[] getCharacterNames() {
-        // Supongamos que este método devuelve los nombres de todos los personajes disponibles
         String[] names = new String[characters.length];
         for (int i = 0; i < characters.length; i++) {
             names[i] = characters[i].getName();
@@ -377,9 +352,9 @@ public class LocalPvPActivity extends AppCompatActivity {
 
     private void endGame(String winner) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Juego terminado");
-        builder.setMessage("El ganador es: " + winner);
-        builder.setPositiveButton("Menú", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.game_over));
+        builder.setMessage(winner);
+        builder.setPositiveButton(getString(R.string.menu), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(LocalPvPActivity.this, MainMenuActivity.class);
@@ -394,6 +369,14 @@ public class LocalPvPActivity extends AppCompatActivity {
         if (recyclerView != null && recyclerView.getLayoutManager() instanceof MainActivity.ScrollableGridLayoutManager) {
             MainActivity.ScrollableGridLayoutManager gridLayoutManager = (MainActivity.ScrollableGridLayoutManager) recyclerView.getLayoutManager();
             gridLayoutManager.setScrollEnabled(enabled);
+        }
+    }
+
+    public void checkForWinnerAfterCrossing(String currentPlayer) {
+        if (currentPlayer.equals(getString(R.string.player_1))) {
+            checkForWinner(chosenCharacterP2, getString(R.string.player_1), characterAdapterP1);
+        } else {
+            checkForWinner(chosenCharacterP1, getString(R.string.player_2), characterAdapterP2);
         }
     }
 }

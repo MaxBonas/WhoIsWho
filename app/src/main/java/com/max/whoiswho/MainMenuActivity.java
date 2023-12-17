@@ -43,7 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
         // Botón Modo Historia (Próximamente)
         Button storyModeButton = findViewById(R.id.story_mode_button);
         storyModeButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Modo Historia Próximamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.story_mode_button), Toast.LENGTH_SHORT).show();
         });
 
         Button musicButton = findViewById(R.id.music_button);
@@ -51,11 +51,11 @@ public class MainMenuActivity extends AppCompatActivity {
             if (isMusicPlaying) {
                 // Detener la música
                 AudioManager.pauseMusic();
-                musicButton.setText("Música OFF");
+                musicButton.setText(getString(R.string.music_off));
             } else {
                 // Reiniciar la música
                 AudioManager.playMusic();
-                musicButton.setText("Música ON");
+                musicButton.setText(getString(R.string.music_on));
             }
             isMusicPlaying = !isMusicPlaying;  // Cambia el estado de la música
         });
@@ -69,12 +69,12 @@ public class MainMenuActivity extends AppCompatActivity {
         Button exitButton = findViewById(R.id.exit_button);
         exitButton.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
-                    .setTitle("Salir del juego")
-                    .setMessage("¿Seguro que quieres salir?")
-                    .setPositiveButton("Sí", (dialog, which) -> {
+                    .setTitle(getString(R.string.exit_game))
+                    .setMessage(getString(R.string.confirm_exit))
+                    .setPositiveButton(getString(R.string.yes), (dialog, which) -> {
                         finishAffinity();  // Cierra todas las actividades y sale de la aplicación
                     })
-                    .setNegativeButton("No", null)
+                    .setNegativeButton(getString(R.string.no), null)
                     .show();
         });
     }

@@ -27,34 +27,35 @@ public class DifficultySelectionActivity extends AppCompatActivity {
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame("Facil");
+                startGame(getString(R.string.easy));
             }
         });
 
         normalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame("Normal");
+                startGame(getString(R.string.normal));
             }
         });
 
         hardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame("Dificil");
+                startGame(getString(R.string.hard));
             }
         });
+
         veryHardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame("Muy Dificil");
+                startGame(getString(R.string.very_hard));
             }
         });
 
         extremeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame("Extremo");
+                startGame(getString(R.string.extreme));
             }
         });
     }
@@ -62,19 +63,19 @@ public class DifficultySelectionActivity extends AppCompatActivity {
     private void startGame(String difficulty) {
         int characterCount;
         switch(difficulty) {
-            case "Facil":
+            case getString(R.string.easy):
                 characterCount = 10;
                 break;
-            case "Normal":
+            case getString(R.string.normal):
                 characterCount = 20;
                 break;
-            case "Dificil":
+            case getString(R.string.hard):
                 characterCount = 30;
                 break;
-            case "Muy Dificil":
+            case getString(R.string.very_hard):
                 characterCount = 30;
                 break;
-            case "Extremo":
+            case getString(R.string.extreme):
                 characterCount = 40;
                 break;
             default:

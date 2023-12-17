@@ -22,7 +22,7 @@
                 android:id="@+id/current_player_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Turno de Player 1"
+                android:text="@string/current_player_turn"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -172,7 +172,7 @@
                 android:id="@+id/end_turn_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Finalizar turno" />
+                android:text="@string/end_turn" />
 
     </LinearLayout>
 </FrameLayout>

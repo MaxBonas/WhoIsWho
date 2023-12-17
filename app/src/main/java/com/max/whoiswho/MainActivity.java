@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
         String playerName = intent.getStringExtra("playerName");
 
         if (playerName == null) {
-            playerName = "Invitado";  // O manejar este caso como mejor te parezca
+            playerName = getString(R.string.guest);  // O manejar este caso como mejor te parezca
         }
         characters = CharacterRepository.getAllCharacters();
 
         int characterCount = getIntent().getIntExtra("CHARACTER_COUNT", 10); // 10 por defecto
         if (characterCount <= 0) {
-            Toast.makeText(this, "Número inválido de personajes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.invalid_character_count), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -71,23 +71,23 @@ public class MainActivity extends AppCompatActivity {
         String difficulty = getIntent().getStringExtra("DIFFICULTY");
 
         if (difficulty == null) {
-            difficulty = "facil";  // asignar un valor predeterminado
+            difficulty = getString(R.string.easy);  // asignar un valor predeterminado
         }
 
         switch (difficulty) {
-            case "facil":
+            case getString(R.string.easy):
                 gameDuration = 2 * 60 * 1000;  // 2 minutos
                 break;
-            case "normal":
+            case getString(R.string.normal):
                 gameDuration = (2 * 60 + 30) * 1000;  // 2,5 minutos
                 break;
-            case "dificil":
+            case getString(R.string.hard):
                 gameDuration = 3 * 60 * 1000;  // 3 minutos
                 break;
-            case "muy_dificil":  // Nuevo
+            case getString(R.string.very_hard):  // Nuevo
                 gameDuration = 2 * 60 * 1000;  // 2 minutos
                 break;
-            case "extremo":  // Nuevo
+            case getString(R.string.extreme):  // Nuevo
                 gameDuration = 2 * 60 * 1000;  // 2 minutos
                 break;
             default:
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
                 int questionIndex = questionsSpinner.getSelectedItemPosition();
                 boolean answer = QuestionManager.askQuestion(chosenCharacter, questionIndex);
-                answerTextView.setText(answer ? "Sí" : "No");
+                answerTextView.setText(answer ? getString(R.string.yes) : getString(R.string.no));
                 answerTextView.setAlpha(0f);
                 answerTextView.setVisibility(View.VISIBLE);
                 answerTextView.animate()
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 // Inicializa y configura el RecyclerView
         characterRecyclerView = findViewById(R.id.character_recycler_view);
 // Pasa dos listas de personajes idénticas al constructor de CharacterAdapter
-        characterAdapter = new CharacterAdapter(this, Arrays.asList(characters), Arrays.asList(characters), floatingImageView, false);
+        characterAdapter = new CharacterAdapter(this, Arrays.asList(characters), floatingImageView);
         characterRecyclerView.setAdapter(characterAdapter);
         ScrollableGridLayoutManager gridLayoutManager = new ScrollableGridLayoutManager(this, 2); // 2 columnas
         characterRecyclerView.setLayoutManager(gridLayoutManager);
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void guessCharacter() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Adivina el personaje");
+        builder.setTitle(getString(R.string.guess_the_character));
 
         View dialogView = getLayoutInflater().inflate(R.layout.guess_character_dialog, null);
         final Spinner characterGuessSpinner = dialogView.findViewById(R.id.character_guess_spinner);
@@ -207,18 +207,18 @@ public class MainActivity extends AppCompatActivity {
         characterGuessSpinner.setAdapter(spinnerAdapter);
 
         builder.setView(dialogView);
-        builder.setPositiveButton("Adivinar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.guess), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String guess = characterGuessSpinner.getSelectedItem().toString();
                 if (guess.equalsIgnoreCase(chosenCharacter.getName())) {
-                    endGame("¡Has ganado!");
+                    endGame(getString(R.string.you_win));
                 } else {
-                    endGame("¡Has perdido!");
+                    endGame(getString(R.string.you_lose));
                 }
             }
         });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -257,9 +257,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isFinishing()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            if (message.equals("¡Has perdido!")) {
+            if (message.equals(getString(R.string.you_lose))) {
                 // Si el jugador ha perdido, muestra el personaje correcto y su imagen
-                message += "\nEl personaje correcto era " + chosenCharacter.getName();
+                message += "\n" + getString(R.string.correct_character, chosenCharacter.getName();
                 // Crear un ImageView para el diálogo
                 ImageView characterImageView = new ImageView(this);
                 characterImageView.setImageResource(chosenCharacter.getImagePath());
@@ -269,11 +269,11 @@ public class MainActivity extends AppCompatActivity {
 
                 builder.setView(characterImageView);
             } else {
-                message += " Tu puntuación es: " + finalScore; // Muestra la puntuación solo si el jugador gana
+                message += getString(R.string.your_score_is, finalScore; // Muestra la puntuación solo si el jugador gana
             }
 
             builder.setTitle(message);
-            builder.setPositiveButton("Menú", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.menu), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 if (error != null) {
                     Log.e("MainActivity", "Error al guardar la puntuación", error.toException());
-                    Toast.makeText(MainActivity.this, "Error al guardar la puntuación", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.error_saving_scores, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -370,8 +370,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Estás seguro de que quieres abandonar la partida?");
-        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+        builder.setMessage(getString(R.string.confirm_exit));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (gameTimer != null) {
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-        builder.setNegativeButton("No", null);
+        builder.setNegativeButton(getString(R.string.no), null);
         builder.show();
     }
 
