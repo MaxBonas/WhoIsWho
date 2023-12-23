@@ -8,12 +8,57 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:22612932389:android:c072935e1b710ba7398ccc",
+        "mobilesdk_app_id": "1:22612932389:android:2ea49e6b6a786d90398ccc",
         "android_client_info": {
-          "package_name": "com.max.whoiswho"
+          "package_name": "com.max.FaceTrace"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANg_hPOUpEjyw0zx4DjSh6TwQyBaAh5Rw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22612932389:android:de1c182e9658b1c0398ccc",
+        "android_client_info": {
+          "package_name": "com.totilab.FaceTrace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22612932389-nq2vg9sc4to3dabn9jrg0d75c12n3k4n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.totilab.FaceTrace",
+            "certificate_hash": "b0981909793980bd0414d92ded948059cffb4cc1"
+          }
+        },
+        {
+          "client_id": "22612932389-sdf4lhs5e03n9e0j34j1krfnnh92jlju.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.totilab.FaceTrace",
+            "certificate_hash": "299796edaef770ca32e5454f9be775041cfc186f"
+          }
+        },
         {
           "client_id": "22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com",
           "client_type": 3

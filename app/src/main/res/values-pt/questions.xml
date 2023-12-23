@@ -1,0 +1,15 @@
+<resources>
+    <string-array name="questions">
+        <item>Usa óculos</item>
+        <item>Tem barba</item>
+        <item>Tem bigode</item>
+        <item>É calvo ou não tem cabelo</item>
+        <item>Usa chapéu ou boné</item>
+        <item>Usa maquiagem</item>
+        <item>Tem um piercing</item>
+        <item>Tem cabelo comprido</item>
+        <item>Tem sardas</item>
+        <item>Tem tatuagens</item>
+        <item>Usa lenço ou bandana</item>
+    </string-array>
+</resources>

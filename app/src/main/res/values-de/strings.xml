@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">WerIstWer</string>
+    <string name="app_name">FaceTrace</string>
     <string name="ask_question">Fragen</string>
     <string name="guess_character">Den Charakter erraten</string>
     <string name="pause_play_button">Pause/Play Knopf</string>
     <string name="next_song_button">Nächster Song Knopf</string>
-    <string name="default_web_client_id">"22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com"</string>
+    <string name="default_web_client_id">"22612932389-a9dtr5a6p2db3e5242gitgo4nirm9inn.apps.googleusercontent.com"
+    </string>
     <string name="ask_question_p1">Frage Spieler 1</string>
     <string name="ask_question_p2">Frage Spieler 2</string>
     <string name="easy">Einfach</string>
@@ -15,16 +16,26 @@
     <string name="time_up">Zeit abgelaufen!</string>
     <string name="score">Punktzahl: %1$d</string>
     <string name="score_alone">Punktzahl</string>
-    <string name="intro_text_1">Als professioneller Detektiv und Physiognomiker stehe ich vor Fällen, die jeglicher Logik trotzen.</string>
-    <string name="intro_text_2">Einer nach dem anderen nehmen verschiedene Zeugen auf diesem Stuhl Platz und beantworten meine Fragen, um den Fall zu entwirren.</string>
-    <string name="intro_text_3">Oft werden die einzigen Bilder des engsten Kreises des Opfers aus den dunkelsten Ecken der sozialen Netzwerke extrahiert.</string>
-    <string name="intro_text_4">Zeugen... immer ein Rätsel. Sie bieten Hinweise, die in Schatten und Wahrnehmungen gehüllt sind. Es ist wesentlich, vorsichtig zu handeln und Verdächtige nicht voreilig auszuschließen.</string>
-    <string name="intro_text_5">Eine neue Suche beginnt! Lassen Sie uns in das Geheimnis eintauchen und herausfinden... Wer es ist!</string>
+    <string name="intro_text_1">Als professioneller Detektiv und Physiognomiker stehe ich vor Fällen, die jeglicher
+        Logik trotzen.
+    </string>
+    <string name="intro_text_2">Einer nach dem anderen nehmen verschiedene Zeugen auf diesem Stuhl Platz und beantworten
+        meine Fragen, um den Fall zu entwirren.
+    </string>
+    <string name="intro_text_3">Oft werden die einzigen Bilder des engsten Kreises des Opfers aus den dunkelsten Ecken
+        der sozialen Netzwerke extrahiert.
+    </string>
+    <string name="intro_text_4">Zeugen… immer ein Rätsel. Sie bieten Hinweise, die in Schatten und Wahrnehmungen
+        gehüllt sind. Es ist wesentlich, vorsichtig zu handeln und Verdächtige nicht voreilig auszuschließen.
+    </string>
+    <string name="intro_text_5">Eine neue Suche beginnt! Lassen Sie uns in das Geheimnis eintauchen und herausfinden…
+        Wer es ist!
+    </string>
     <string name="player_1">Spieler 1</string>
     <string name="player_2">Spieler 2</string>
     <string name="choose_character_p1">Spieler 1: Wähle deinen Charakter</string>
     <string name="choose_character_p2">Spieler 2: Wähle deinen Charakter</string>
-    <string name="turn_of">%1$s's Zug</string>
+    <string name="turn_of">%1$s\'s Zug</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="has_lost">hat verloren</string>
@@ -84,8 +95,7 @@
     <string name="play_vs_player">Gegen Spieler spielen</string>
     <string name="story_mode">Story-Modus</string>
     <string name="scores">Punktestände</string>
-    <string name="exit_game">Spiel beenden</string>
-    <string name="sort_by_score">Nach Punktzahl sortieren</string>
+    <string name="exit_game_button">Spiel beenden</string>
     <string name="scores_title">Punktestände</string>
     <string name="press_to_continue">Drücken Sie, um fortzufahren</string>
     <string name="previous">Vorherig</string>
@@ -94,4 +104,20 @@
     <string name="score_column">Punktzahl</string>
     <string name="difficulty_column">Schwierigkeit</string>
     <string name="player_column">Spieler</string>
+    <string name="tutorial_welcome">Willkommen bei FaceTrace</string>
+    <string name="tutorial_objective">Dein Ziel ist es, den Hauptverdächtigen unter den Bekannten des Opfers zu identifizieren, indem du Charaktere anhand der Antworten eines Zeugen ausschließt.</string>
+    <string name="tutorial_advice">Zeugen stimmen nicht immer mit dir überein und die Bilder sind nicht immer klar. Wenn du zweifelst, schließe sie nicht sofort aus und suche nach einer weiteren Frage, die dir hilft, sie auszuschließen.</string>
+    <string name="tutorial_question">Kannst du sie finden, bevor die Zeit abläuft?</string>
+    <string name="tutorial_board">Das ist dein Verdächtigenbrett</string>
+    <string name="tutorial_navigation">Wenn du auf dem Brett nach oben oder unten wischst, navigierst du durch die Fotos.</string>
+    <string name="tutorial_selection">Wenn du einmal auf ein Foto tippst, wird es ans Ende der Liste verschoben und durchgestrichen.</string>
+    <string name="tutorial_enlarge">Wenn du ein Foto gedrückt hältst, wird es vergrößert, sodass du die Details besser sehen kannst</string>
+    <string name="tutorial_panel">Hier unten ist dein Panel</string>
+    <string name="tutorial_tools">Darin hast du die Werkzeuge, um voranzukommen</string>
+    <string name="tutorial_questions">Wenn du hier drückst, entfaltet sich die Liste der Fragen, die du stellen kannst</string>
+    <string name="tutorial_response">Wenn du deine Frage bereit hast, drücke hier, um eine Antwort zu erhalten</string>
+    <string name="tutorial_guess">Wenn du dir sicher bist und versuchen möchtest, den Charakter zu erraten, drücke hier, und es lässt dich unter den Charakteren wählen, die du nicht ausgeschlossen hast.</string>
+    <string name="tutorial_score">Hier siehst du deine verbleibende Zeit und deine Punktzahl. Je schneller du fertig bist, desto mehr Punkte bekommst du.</string>
+    <string name="tutorial_conclusion">Jetzt weißt du alles, was du brauchst, um den Fall zu lösen. Jetzt bist du dran!</string>
+
 </resources>

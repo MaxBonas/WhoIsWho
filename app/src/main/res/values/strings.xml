@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhoIsWho</string>
+    <string name="app_name">FaceTrace</string>
     <string name="ask_question">Preguntar</string>
     <string name="guess_character">Adivinar Personaje</string>
     <string name="pause_play_button">Botón de pausa o reproducción</string>
@@ -18,8 +18,8 @@
     <string name="intro_text_1">Como detective y fisonomista profesional, enfrento casos que desafían la lógica misma.</string>
     <string name="intro_text_2">Uno tras otro, distintos testigos ocupan esa silla, respondiendo a mis preguntas para desgranar el caso.</string>
     <string name="intro_text_3">A menudo, las unicas imágenes del círculo íntimo de la víctima se extraen de los rincones más oscuros de las redes sociales.</string>
-    <string name="intro_text_4">Los testigos... siempre un enigma. Ofrecen pistas envueltas en sombras y percepciones. Es esencial actuar con cautela, evitando descartar sospechosos a la ligera.</string>
-    <string name="intro_text_5">¡Comienza una nueva búsqueda! Adentrémonos en el misterio y descubramos... ¡Quién es!</string>
+    <string name="intro_text_4">Los testigos… siempre un enigma. Ofrecen pistas envueltas en sombras y percepciones. Es esencial actuar con cautela, evitando descartar sospechosos a la ligera.</string>
+    <string name="intro_text_5">¡Comienza una nueva búsqueda! Adentrémonos en el misterio y descubramos… ¡Quién es!</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="choose_character_p1">Player 1: Escoge tu personaje</string>
@@ -38,6 +38,7 @@
     <string name="story_mode_button">Modo Historia (Próximamente)</string>
     <string name="music_on">Música ON</string>
     <string name="music_off">Música OFF</string>
+    <string name="scores_button">Puntuaciones</string>
     <string name="exit_game">Salir del juego</string>
     <string name="confirm_exit">¿Seguro que quieres salir?</string>
     <string name="invalid_character_count">Número inválido de personajes</string>
@@ -84,8 +85,7 @@
     <string name="play_vs_player">Jugar vs Player</string>
     <string name="story_mode">Modo Historia</string>
     <string name="scores">Puntuaciones</string>
-    <string name="exit_game">Salir del juego</string>
-    <string name="sort_by_score">Ordenar por Puntuación</string>
+    <string name="exit_game_button">Salir del juego</string>
     <string name="scores_title">Puntuaciones</string>
     <string name="press_to_continue">Pulsa para continuar</string>
     <string name="previous">Anterior</string>
@@ -94,4 +94,20 @@
     <string name="score_column">Puntuación</string>
     <string name="difficulty_column">Dificultad</string>
     <string name="player_column">Jugador</string>
+    <string name="tutorial_welcome">Bienvenido a FaceTrace</string>
+    <string name="tutorial_objective">Tu objetivo es descubrir al principal sospechoso de entre el entorno de la víctima descartando personajes gracias a las respuestas de un testigo.</string>
+    <string name="tutorial_advice">Los testigos no siempre opinan como tu, y las imagenes no siempre son claras. Si dudas, no descartes enseguida, y busca otra pregunta que te ayude a tacharlo.</string>
+    <string name="tutorial_question">Podrás encontrarlo antes de que se acabe el tiempo?</string>
+    <string name="tutorial_board">Este es tu tablero de implicados</string>
+    <string name="tutorial_navigation">Si deslizas en el tablero hacia arriba o hacia abajo navegas entre las fotografias.</string>
+    <string name="tutorial_selection">Si pulsas una vez sobre una fotografia, ésta se moverá al final de la lista y se tachará.</string>
+    <string name="tutorial_enlarge">Si mantienes pulsada una foto, ésta se ampliará, para ver mejor los detalles</string>
+    <string name="tutorial_panel">Aqui abajo está tu panel</string>
+    <string name="tutorial_tools">En el tienes las herramientas para avanzar</string>
+    <string name="tutorial_questions">Si pulsas aquí se despliega la lista de preguntas que puedes hacer</string>
+    <string name="tutorial_response">Cuando tengas lista la pregunta, pulsa aquí para obtener respuesta</string>
+    <string name="tutorial_guess">Si lo tienes claro, y quieres intentar adivinar el personaje pulsa aquí y te dejará escoger entre los personajes que no hayas descartado.</string>
+    <string name="tutorial_score">Aquí ves tu tiempo restante y tu puntuación. Cuanto más rápido acabes, más puntos.</string>
+    <string name="tutorial_conclusion">Ya sabes lo necesario para resolver el caso. ¡Ahora es tu turno!</string>
+
 </resources>

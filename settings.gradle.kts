@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "WhoIsWho"
+rootProject.name = "FaceTrace"
 include(":app")
  

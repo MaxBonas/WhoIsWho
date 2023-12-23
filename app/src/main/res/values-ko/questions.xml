@@ -1,0 +1,15 @@
+<resources>
+    <string-array name="questions">
+        <item>안경을 착용함</item>
+        <item>수염이 있음</item>
+        <item>콧수염이 있음</item>
+        <item>대머리 또는 머리카락이 없음</item>
+        <item>모자나 캡을 착용함</item>
+        <item>화장을 함</item>
+        <item>피어싱을 함</item>
+        <item>긴 머리카락</item>
+        <item>주근깨가 있음</item>
+        <item>타투가 있음</item>
+        <item>스카프나 반다나를 착용함</item>
+    </string-array>
+</resources>

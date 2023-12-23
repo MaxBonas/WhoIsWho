@@ -1,0 +1,15 @@
+<resources>
+    <string-array name="questions">
+        <item>Indossa gli occhiali</item>
+        <item>Ha la barba</item>
+        <item>Ha i baffi</item>
+        <item>È calvo o manca di capelli</item>
+        <item>Indossa un cappello o un berretto</item>
+        <item>Indossa il trucco</item>
+        <item>Ha un piercing</item>
+        <item>Ha i capelli lunghi</item>
+        <item>Ha le lentiggini</item>
+        <item>Ha tatuaggi</item>
+        <item>Indossa una sciarpa o una bandana</item>
+    </string-array>
+</resources>

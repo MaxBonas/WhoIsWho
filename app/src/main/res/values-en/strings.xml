@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhoIsWho</string>
+    <string name="app_name">FaceTrace</string>
     <string name="ask_question">Ask</string>
     <string name="guess_character">Guess the Character</string>
     <string name="pause_play_button">Pause/Play Button</string>
@@ -12,19 +12,19 @@
     <string name="hard">Hard</string>
     <string name="very_hard">Very Hard</string>
     <string name="extreme">Extreme</string>
-    <string name="time_up">Time's Up!</string>
+    <string name="time_up">Time\'s Up!</string>
     <string name="score">Score: %1$d</string>
     <string name="score_alone">Score</string>
     <string name="intro_text_1">As a professional detective and physiognomist, I face cases that defy logic itself.</string>
     <string name="intro_text_2">One after another, different witnesses take that seat, answering my questions to unravel the case.</string>
-    <string name="intro_text_3">Often, the only images of the victim's inner circle are extracted from the darkest corners of social networks.</string>
-    <string name="intro_text_4">Witnesses... always an enigma. They offer clues shrouded in shadows and perceptions. It is essential to act cautiously, avoiding discarding suspects lightly.</string>
-    <string name="intro_text_5">A new search begins! Let's delve into the mystery and discover... Who it is!</string>
+    <string name="intro_text_3">Often, the only images of the victim\'s inner circle are extracted from the darkest corners of social networks.</string>
+    <string name="intro_text_4">Witnesses… always an enigma. They offer clues shrouded in shadows and perceptions. It is essential to act cautiously, avoiding discarding suspects lightly.</string>
+    <string name="intro_text_5">A new search begins! Let\'s delve into the mystery and discover… Who it is!</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="choose_character_p1">Player 1: Choose your character</string>
     <string name="choose_character_p2">Player 2: Choose your character</string>
-    <string name="turn_of">%1$s's turn</string>
+    <string name="turn_of">%1$s\'s turn</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="has_lost">has lost</string>
@@ -74,7 +74,7 @@
     <string name="very_hard_button">Very Hard</string>
     <string name="extreme_button">Extreme</string>
     <string name="skip_button">Skip</string>
-    <string name="current_player_turn">Player 1's Turn</string>
+    <string name="current_player_turn">Player 1\'s Turn</string>
     <string name="end_turn">End Turn</string>
     <string name="music_on_off">Music ON/OFF</string>
     <string name="tutorial">Tutorial</string>
@@ -84,8 +84,7 @@
     <string name="play_vs_player">Play vs Player</string>
     <string name="story_mode">Story Mode</string>
     <string name="scores">Scores</string>
-    <string name="exit_game">Exit Game</string>
-    <string name="sort_by_score">Sort by Score</string>
+    <string name="exit_game_button">Exit Game</string>
     <string name="scores_title">Scores</string>
     <string name="press_to_continue">Press to Continue</string>
     <string name="previous">Previous</string>
@@ -94,4 +93,20 @@
     <string name="score_column">Score</string>
     <string name="difficulty_column">Difficulty</string>
     <string name="player_column">Player</string>
+    <string name="tutorial_welcome">Welcome to FaceTrace</string>
+    <string name="tutorial_objective">Your goal is to identify the main suspect among the victim\'s entourage by discarding characters based on a witness's answers.</string>
+    <string name="tutorial_advice">Witnesses may not always agree with you, and images may not always be clear. If in doubt, don\'t discard immediately, and look for another question that helps you cross them off.</string>
+    <string name="tutorial_question">Can you find them before time runs out?</string>
+    <string name="tutorial_board">This is your board of suspects</string>
+    <string name="tutorial_navigation">If you swipe up or down on the board, you navigate through the photographs.</string>
+    <string name="tutorial_selection">If you tap once on a photograph, it will move to the end of the list and be crossed out.</string>
+    <string name="tutorial_enlarge">If you hold down a photo, it will enlarge, so you can better see the details</string>
+    <string name="tutorial_panel">Here below is your panel</string>
+    <string name="tutorial_tools">In it, you have the tools to progress</string>
+    <string name="tutorial_questions">If you press here, the list of questions you can ask will unfold</string>
+    <string name="tutorial_response">When you have your question ready, press here to get an answer</string>
+    <string name="tutorial_guess">If you\'re sure and want to try guessing the character, press here and it will let you choose among the characters you haven\'t discarded.</string>
+    <string name="tutorial_score">Here you can see your remaining time and your score. The faster you finish, the more points you get.</string>
+    <string name="tutorial_conclusion">Now you know everything you need to solve the case. It\'s your turn now!</string>
+
 </resources>

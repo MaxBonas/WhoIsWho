@@ -1,0 +1,15 @@
+<resources>
+    <string-array name="questions">
+        <item>メガネをかけている</item>
+        <item>ひげがある</item>
+        <item>口ひげがある</item>
+        <item>はげている、または髪の毛がない</item>
+        <item>帽子やキャップをかぶっている</item>
+        <item>化粧をしている</item>
+        <item>ピアスがある</item>
+        <item>髪が長い</item>
+        <item>そばかすがある</item>
+        <item>タトゥーがある</item>
+        <item>スカーフやバンダナをしている</item>
+    </string-array>
+</resources>

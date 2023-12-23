@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.max.whoiswho"
+    namespace = "com.max.FaceTrace"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.max.whoiswho"
+        applicationId = "com.max.FaceTrace"
         minSdk = 21  // Cambiado para soportar Android 4.4 y posteriores
         this.targetSdk = 34  // Actualizado a 34
         versionCode = 1
@@ -31,7 +31,7 @@ android {
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("androidx.lifecycle:lifecycle-process:2.6.2")
     implementation("com.google.code.gson:gson:2.8.9")
@@ -43,7 +43,10 @@ dependencies {
     // No version numbers needed when using the BoM
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-auth:22.3.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0") // Ajusta la versión según sea necesario
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     testImplementation("junit:junit:4.13.2")

@@ -1,0 +1,15 @@
+<resources>
+    <string-array name="questions">
+        <item>Porte des lunettes</item>
+        <item>A une barbe</item>
+        <item>A une moustache</item>
+        <item>Est chauve ou manque de cheveux</item>
+        <item>Porte un chapeau ou une casquette</item>
+        <item>Porte du maquillage</item>
+        <item>A un piercing</item>
+        <item>A les cheveux longs</item>
+        <item>A des taches de rousseur</item>
+        <item>A des tatouages</item>
+        <item>Porte un foulard ou un bandana</item>
+    </string-array>
+</resources>

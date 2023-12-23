@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="questions">
+        <item>戴眼镜</item>
+        <item>有胡子</item>
+        <item>有胡须</item>
+        <item>秃头或缺少头发</item>
+        <item>戴帽子或帽子</item>
+        <item>化妆</item>
+        <item>有穿孔</item>
+        <item>长头发</item>
+        <item>有雀斑</item>
+        <item>有纹身</item>
+        <item>戴围巾或头巾</item>
+    </string-array>
+</resources>
